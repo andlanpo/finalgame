@@ -1,27 +1,27 @@
 export const MenuItems = [
     {
         title: 'Home',
-        url: '#',
+        url: '/',
         cName: 'nav-links'
     },
     {
         title: 'ASL Type',
-        url: '#',
+        url: '/aslRacer',
         cName: 'nav-links'
     },
     {
         title: 'Wiki Racer',
-        url: '#',
+        url: '/wikiRacer',
         cName: 'nav-links'
     },
     {
         title: 'Pitch Guesser',
-        url: '#',
+        url: '/pitchGuesser',
         cName: 'nav-links'
     },
     {
         title: 'Memory Game',
-        url: '#',
+        url: '/memory',
         cName: 'nav-links'
     },
     {
