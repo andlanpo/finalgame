@@ -14,17 +14,13 @@ class Navbar extends Component {
     handleClick = () => {
         this.setState({clicked: !this.state.clicked })
     }
-    handleHome = ()=> {
-        this.setState({clicked: !this.state.clicked })
-    }
 
     render() {
         return(
             <nav className="NavbarItems">
-                <a href = "/">
+                <a href = "/" style={{ textDecoration: 'none' }}>
                 <h1 className = "navbar-logo">Knome <BiBrain /></h1>
                 </a>
-                
                 <div className="menu-icon" onClick = {this.handleClick}>
                     {this.state.clicked ? <MdClose /> : <GiHamburgerMenu />}
                 </div>
