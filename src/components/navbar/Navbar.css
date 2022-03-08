@@ -5,13 +5,13 @@
     justify-content: center;
     align-items: center;
     font-size: 1.2rem;
-
 }
 
 .navbar-logo {
     color: #fff;
     justify-self: start;
-    margin-left: 20px;
+    margin-left: 5px;
+    margin-top: 5px;
     cursor: pointer;
 }
 .nav-menu {
@@ -52,7 +52,6 @@
 @media screen and (max-width: 1200px) {
     .NavBarItems {
         position: relative;
-
     }
 
     .nav-menu {

@@ -7,6 +7,7 @@ import {GiHamburgerMenu} from 'react-icons/gi'
 import {Button} from "../Button"
 
 
+
 class Navbar extends Component {
     state = {clicked: false}
 
@@ -17,8 +18,9 @@ class Navbar extends Component {
     render() {
         return(
             <nav className="NavbarItems">
-                <h1 className = "navbar-logo">Knome Games <BiBrain /></h1>
-                
+                <a href = "/" style={{ textDecoration: 'none' }}>
+                <h1 className = "navbar-logo">Knome <BiBrain /></h1>
+                </a>
                 <div className="menu-icon" onClick = {this.handleClick}>
                     {this.state.clicked ? <MdClose /> : <GiHamburgerMenu />}
                 </div>
