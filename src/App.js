@@ -7,23 +7,29 @@ import ASL from './Pages/aslType';
 
 import Home from './Pages/Home';
 import Wikipedia from './Pages/Wikipedia';
-import SignIn from './Pages/SignIn';
+import Signup from './Pages/Signup';
 
-const App = () => {
+
+function App() {
     return (
-        <Router>
-            <Navbar />
+            <Router>
+             <Navbar/>
             <Routes>
                 <Route path= "/" element = {<Home />} />
                 <Route path= "/aslRacer" element = {<ASL />} />
                 <Route path= "/wikiRacer" element = {<Wikipedia />} />
-
-
-            </Routes>
-             
+                <Route path = "/signup" element = {<Signup />} />
+            </Routes>   
         </Router>
+
+                
+            
+ 
+            
+        
         
     );
 }
+
 
 export default App;

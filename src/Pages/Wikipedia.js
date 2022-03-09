@@ -75,7 +75,7 @@ class Wikipedia extends React.Component {
   }
 }
 
-function Wikipedia() {
+function Wikipedia1() {
   return (
     <div>Wikipedia
       <iframe id="frame" src="https://en.wikipedia.org/wiki/Waluigi" height= "100%" width= "100%"></iframe>
@@ -84,4 +84,4 @@ function Wikipedia() {
   )
 }
 
-export default Wikipedia
+export default Wikipedia1
