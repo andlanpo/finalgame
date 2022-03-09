@@ -1,19 +1,19 @@
 import React, { useRef, useState } from "react"
-import { Form, Button, Card, Alert } from "react-bootstrap"
+import { Form, Button, Card } from "react-bootstrap"
 import { signup } from "../firebase"
+import { Link } from "react-router-dom"
 
 export default function Signup() {
   const emailRef = useRef()
   const passwordRef = useRef()
   const passwordConfirmRef = useRef()
-  const [error, setError] = useState("")
   async function handleSignUp(){
-    try {
-      
-      await signup(emailRef.current.value, passwordRef.current.value)
-    } catch {
-      alert("Failed to create an account")
-    }
+      await signup(emailRef.current.value, passwordRef.current.value).catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // ..
+  });
+
   }
 
 
@@ -42,7 +42,7 @@ export default function Signup() {
         </Card.Body>
       </Card>
       <div className="w-100 text-center mt-2">
-        Already have an account? 
+        Already have an account? <Link to="/login">Log In</Link>
       </div>
     </>
   )

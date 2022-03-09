@@ -8,6 +8,7 @@ import ASL from './Pages/aslType';
 import Home from './Pages/Home';
 import Wikipedia from './Pages/Wikipedia';
 import Signup from './Pages/Signup';
+import Login from './Pages/Login'
 
 
 function App() {
@@ -19,6 +20,8 @@ function App() {
                 <Route path= "/aslRacer" element = {<ASL />} />
                 <Route path= "/wikiRacer" element = {<Wikipedia />} />
                 <Route path = "/signup" element = {<Signup />} />
+                <Route path = "/login" element = {<Login />} />
+
             </Routes>   
         </Router>
 

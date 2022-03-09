@@ -7,26 +7,26 @@ export const MenuItems = [
     {
         title: 'ASL Type',
         url: '/aslRacer',
-        cName: 'nav-links'
+        cName: 'nav-links-mobile'
     },
     {
         title: 'Wiki Racer',
         url: '/wikiRacer',
-        cName: 'nav-links'
+        cName: 'nav-links-mobile'
     },
     {
         title: 'Pitch Guesser',
         url: '/pitchGuesser',
-        cName: 'nav-links'
+        cName: 'nav-links-mobile'
     },
     {
         title: 'Memory Game',
         url: '/memory',
-        cName: 'nav-links'
+        cName: 'nav-links-mobile'
     },
     {
         title: 'Sign Up',
         url: '/signup',
-        cName: 'nav-links-mobile'
+        cName: 'nav-links'
     },
 ]
