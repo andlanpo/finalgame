@@ -16,26 +16,35 @@
     justify-content: center;
     width: 10rem;
 }
-.profile-icon {
-    color: white;
-    text-decoration: none;
-    font-size: 2rem;
+.prof-items {
+    display: flex;
+    list-style: none;
+    text-align: center;
+    width: 80vw;
+    height: 10vh;
+    justify-content: flex-end;
+}
+.prof-item{
     display: flex;
     align-items: center;
-    justify-content: center;
     list-style: none;
 }
-.profile-icon a{
+
+.prof-item a{
     text-decoration: none;
     color: white;
-    font-size: 2rem;
-    margin-right: 1rem;
-    border-radius: 1px;
+    font-size: 1.1rem;
+    margin-right: 4rem;
+    padding: 6px 16px;
+    border-radius: 5px;
 }
 
-.profile-icon:hover{
+.prof-item a:hover{
     background: rgb(0,0,200);
 }
+
+
+
 
 .nav-items {
     display: flex;

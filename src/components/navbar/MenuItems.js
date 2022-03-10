@@ -10,13 +10,7 @@ export const MenuItems = [
         title: 'Games',
         url: '/games',
         cName: 'nav-item'
-    },
-    {
-        id:3,
-        title: 'Sign Up',
-        url: '/signup',
-        cName: 'nav-item'
-    },
+    }
 ]
 
 export const GamesDropDown = [

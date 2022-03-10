@@ -39,8 +39,7 @@ function Navbar() {
                         )
                     })} 
                 </u1> 
-                <u1 className = 'profile-icon'>
-                 
+                <u1 className = 'prof-item'>
                 <li key = '1' className ='profile'onMouseEnter ={() => setProfDropDown(true)} onMouseLeave = {() => setProfDropDown(false)}>
                 <Link to='/signup'><CgProfile></CgProfile> </Link>   
                 {profDropdown && <OtherDropdown />}
