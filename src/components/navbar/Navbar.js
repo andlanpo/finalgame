@@ -1,48 +1,55 @@
-import React, {Component } from 'react';
+import React, {Component, useState } from 'react';
 import {MenuItems } from "./MenuItems";
 import './Navbar.css';
 import { BiBrain } from 'react-icons/bi';
-import {MdClose} from "react-icons/md";
+import {MdClose, MdArrowDropDown} from "react-icons/md";
 import {GiHamburgerMenu} from 'react-icons/gi'
 import {CgProfile} from 'react-icons/cg'
 import {Button} from "../Button"
+import { Link } from 'react-router-dom';
+import {GamesDropdown, OtherDropdown} from './Dropdown';
 
 
+function Navbar() {
+    const [gamesDropdown, setGamesDropDown] = useState(false)
+    const [profDropdown, setProfDropDown] = useState(false)
 
-class Navbar extends Component {
-    state = {clicked: false}
-
-    handleClick = () => {
-        this.setState({clicked: !this.state.clicked })
-    }
-
-    render() {
-        return(
-            <nav className="NavbarItems">
-                <a href = "/" style={{ textDecoration: 'none' }}>
-                <h1 className = "navbar-logo">Knome <BiBrain /></h1>
-                </a>
-                <a href = "/signup" style={{ textDecoration: 'none' }}>
-                <h1 className = "profile-icon"><CgProfile /></h1>
-                </a>
-                <div className="menu-icon" onClick = {this.handleClick}>
-                    {this.state.clicked ? <MdClose /> : <GiHamburgerMenu />}
-                </div>
-                <ul className={this.state.clicked ? 'nav-menu active' : 'nav-menu'}>
-                    {MenuItems.map((item, index)=> {
-                        return (
-                            <li key={index}>
-                                <a className={item.cName} href={item.url}>
-                                {item.title}
-                                </a>
+    
+    return (
+        <>
+            <nav className="navbar">
+                <Link to= "/" className='navbar-logo'>
+                    Knome    
+                    <BiBrain />
+                </Link>   
+                <u1 className = "nav-items">
+                    {MenuItems.map(item => {
+                        if( item.title === "Games"){
+                            return(
+                                <li key = {item.id} className ={item.cName}onMouseEnter ={() => setGamesDropDown(true)} onMouseLeave = {() => setGamesDropDown(false)}>
+                                <Link to={item.url} >{item.title}</Link>   
+                                {gamesDropdown && <GamesDropdown />}
                             </li>
+                            )
+                        }
+                        return(
+                            <li key = {item.id} className ={item.cName}>
+                            <Link to={item.url}>{item.title}</Link>   
+                        </li>
                         )
-                    })}
-                </ul>
+                    })} 
+                </u1> 
+                <u1 className = 'profile-icon'>
+                 
+                <li key = '1' className ='profile'onMouseEnter ={() => setProfDropDown(true)} onMouseLeave = {() => setProfDropDown(false)}>
+                <Link to='/signup'><CgProfile></CgProfile> </Link>   
+                {profDropdown && <OtherDropdown />}
+                </li>
 
+                </u1>
             </nav>
-        )
-    }
+        </>
+    )
 }
 
 export default Navbar

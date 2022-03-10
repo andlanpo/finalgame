@@ -15,7 +15,7 @@ export default function Login({navigation}) {
       await login(emailRef.current.value,passwordRef.current.value)
       navigate("/");
     } catch{
-      alert("error");
+      alert("Log In Failed");
     }
     setLoading(false);
   }
