@@ -1,19 +1,23 @@
 import React, { useRef, useState } from "react"
 import { Form, Button, Card } from "react-bootstrap"
 import { login } from "../firebase"
+import { useNavigate } from "react-router-dom"
 
 
 export default function Login({navigation}) {
   const emailRef = useRef()
   const passwordRef = useRef()
+  let navigate = useNavigate();
+  const [loading, setLoading] = useState(false)
   async function handleLogIn(){
+    setLoading(true);
     try {
-      
-      await login(emailRef.current.value, passwordRef.current.value)
-      this.props.navigation.navigate('Home');
-    } catch {
-      alert("Failed to log in")
+      await login(emailRef.current.value,passwordRef.current.value)
+      navigate("/");
+    } catch{
+      alert("error");
     }
+    setLoading(false);
   }
 
 
@@ -31,7 +35,7 @@ export default function Login({navigation}) {
               <Form.Label>Password</Form.Label>
               <Form.Control type="password" ref={passwordRef} required />
             </Form.Group>
-            <Button onClick = {handleLogIn} className="w-100" type="submit">
+            <Button onClick = {handleLogIn} disabled = {loading} className="w-100" type="submit">
               Login
             </Button>
           </Form>

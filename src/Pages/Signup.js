@@ -1,19 +1,24 @@
 import React, { useRef, useState } from "react"
 import { Form, Button, Card } from "react-bootstrap"
 import { signup } from "../firebase"
+import { useNavigate } from "react-router-dom"
 import { Link } from "react-router-dom"
 
 export default function Signup() {
+  const [loading, setLoading] = useState(false)
   const emailRef = useRef()
+  let navigate = useNavigate();
   const passwordRef = useRef()
   const passwordConfirmRef = useRef()
   async function handleSignUp(){
-      await signup(emailRef.current.value, passwordRef.current.value).catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    // ..
-  });
-
+    setLoading(true);
+    try {
+      await signup(emailRef.current.value,passwordRef.current.value)
+      navigate("/");
+    } catch{
+      alert("error");
+    }
+    setLoading(false);
   }
 
 
@@ -35,7 +40,7 @@ export default function Signup() {
               <Form.Label>Password Confirmation</Form.Label>
               <Form.Control type="password" ref={passwordConfirmRef} required />
             </Form.Group>
-            <Button onClick = {handleSignUp} className="w-100" type="submit">
+            <Button onClick = {handleSignUp} disabled = {loading} className="w-100" type="submit">
               Sign Up
             </Button>
           </Form>
