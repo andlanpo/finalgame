@@ -7,13 +7,11 @@ import {GiHamburgerMenu} from 'react-icons/gi'
 import {CgProfile} from 'react-icons/cg'
 import {Button} from "../Button"
 import { Link } from 'react-router-dom';
-import {GamesDropdown, OtherDropdown} from './Dropdown';
-
+import {GamesDropdown, ProfDropdownFunc} from './Dropdown';
 
 function Navbar() {
     const [gamesDropdown, setGamesDropDown] = useState(false)
     const [profDropdown, setProfDropDown] = useState(false)
-
     
     return (
         <>
@@ -37,13 +35,13 @@ function Navbar() {
                         </li>
                         )
                     })} 
-                </u1> 
-                <u1 className = 'prof-items'>
-                <li key = '1' className ='prof-item'onMouseEnter ={() => setProfDropDown(true)} onMouseLeave = {() => setProfDropDown(false)}>
-                <Link to='/signup'><CgProfile/> </Link>   
-                {profDropdown && <OtherDropdown />}
-                </li>
-                </u1>
+                </u1>                     
+                        <u1 className = 'prof-items'>
+                        <li key = '1' className ='prof-item'onMouseEnter ={() => setProfDropDown(true)} onMouseLeave = {() => setProfDropDown(false)}>
+                        <Link to='/signup'><CgProfile/> </Link>   
+                        {profDropdown && <ProfDropdownFunc />}
+                        </li>
+                        </u1>
             </nav>
         </>
     )

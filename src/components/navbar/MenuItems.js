@@ -38,4 +38,24 @@ export const GamesDropDown = [
 
 ]
 
+export const ProfileDropdown = [
+    {
+        id:1,
+        title: 'Profile',
+        url: '/profile',
+        cName: 'profilemenu-item'
+    },
+    {
+        id:2,
+        title: 'Settings',
+        url: '/settings',
+        cName: 'profilemenu-item'    },
+    {
+        id:3,
+        title: 'Log Off',
+        url: '/',
+        cName: 'profilemenu-item'    }
+
+]
+
 

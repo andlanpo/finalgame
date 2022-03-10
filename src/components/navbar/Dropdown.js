@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import {GamesDropDown} from "./MenuItems"
+import {GamesDropDown, ProfileDropdown} from "./MenuItems"
 import { Link} from "react-router-dom"
 import "./Dropdown.css"
 
@@ -22,12 +22,12 @@ export function GamesDropdown() {
   )
 }
 
-export function OtherDropdown() {
+export function ProfDropdownFunc() {
     const [dropdown, setDropdown] = useState(false);
  return (
    <>
     <u1 className = {dropdown ? "prof-menu clicked" : "prof-menu"} onClick= {() => setDropdown(!dropdown)}>
-                   {GamesDropDown.map(item => {
+                   {ProfileDropdown.map(item => {
                        return(
                            <li key = {item.id} className ={item.cName}
                            onClick= {() => setDropdown(!dropdown)}>
