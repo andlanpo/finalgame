@@ -20,21 +20,19 @@
     display: flex;
     list-style: none;
     text-align: center;
-    width: 80vw;
     height: 10vh;
     justify-content: flex-end;
 }
 .prof-item{
     display: flex;
     align-items: center;
-    list-style: none;
 }
 
 .prof-item a{
     text-decoration: none;
     color: white;
     font-size: 1.1rem;
-    margin-right: 4rem;
+    margin-right: 1rem;
     padding: 6px 16px;
     border-radius: 5px;
 }
@@ -69,5 +67,5 @@
 }
 
 .nav-item a:hover{
-    background: rgb(0,0,200);
+    background: rgb(255, 255, 255);
 }

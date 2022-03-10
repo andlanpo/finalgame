@@ -18,10 +18,9 @@ function Navbar() {
     return (
         <>
             <nav className="navbar">
-                <Link to= "/" className='navbar-logo'>
-                    Knome    
-                    <BiBrain />
-                </Link>   
+            <a href = "/" style={{ textDecoration: 'none' }}>
+                <h1 className = "navbar-logo">Knome <BiBrain /></h1>
+                </a>  
                 <u1 className = "nav-items">
                     {MenuItems.map(item => {
                         if( item.title === "Games"){
@@ -39,12 +38,11 @@ function Navbar() {
                         )
                     })} 
                 </u1> 
-                <u1 className = 'prof-item'>
-                <li key = '1' className ='profile'onMouseEnter ={() => setProfDropDown(true)} onMouseLeave = {() => setProfDropDown(false)}>
-                <Link to='/signup'><CgProfile></CgProfile> </Link>   
+                <u1 className = 'prof-items'>
+                <li key = '1' className ='prof-item'onMouseEnter ={() => setProfDropDown(true)} onMouseLeave = {() => setProfDropDown(false)}>
+                <Link to='/signup'><CgProfile/> </Link>   
                 {profDropdown && <OtherDropdown />}
                 </li>
-
                 </u1>
             </nav>
         </>
