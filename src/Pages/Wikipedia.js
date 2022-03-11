@@ -1,3 +1,4 @@
+import { render } from '@testing-library/react'; 
 import React from 'react'
 
 class Wikipedia extends React.Component {
@@ -55,7 +56,7 @@ class Wikipedia extends React.Component {
           for(var key2 in pointerToThis.state.wikiSearchReturnValues) {
             let page = pointerToThis.state.wikiSearchReturnValues[key2];
             let pageID = page.queryResultPageID;
-            let urlforRetrievingPageURLyPageID = "hhtps://en.wikipedia.org/w/api.php?origin*&action=query&prop=info&pageids=${pageID}@inprop=url&format=json";
+            let urlforRetrievingPageURLyPageID = "https://en.wikipedia.org/w/api.php?origin*&action=query&prop=info&pageids=${pageID}@inprop=url&format=json";
           
             fetch(urlforRetrievingPageURLyPageID)
               .then(
@@ -63,25 +64,49 @@ class Wikipedia extends React.Component {
                   return response.json();
                 }
               )
-              // .then(
-              //   function (response) {
-              //     page.queryResultPageFullURL = response.query.pages[pageID].fullurl;
-              //   }
-              // ) //around 23:50
+              .then(
+                function (response) {
+                   page.queryResultPageFullURL = response.query.pages[pageID].fullurl;
+
+                   pointerToThis.forceUpdate();
+                }
+              ) 
           }
         }
       )
+  }
+  changeWikiSearchTerms = (e) => {
+    this.setState({
+      WikiSearchTerms: e.target.value
+    });
+  }
 
+  render() {
+    let wikiSearchResults = [];
+
+    for(var key3 in this.state.wikiSearchReturnValues) {
+      wikiSearchResults.push(
+        <div className="searchResultDiv" key={key3}>
+          <h3><a href = {this.state.wikiSearchReturnValues[key3].queryResultPageFullURL}>{this.state.wikiSearchReturnValues[key3].queryResultPageTitle}</a></h3>
+          <span className="link"><a href = {this.state.wikiSearchReturnValues[key3].queryResultPageFullURL}>{this.state.wikiSearchReturnValues[key3].queryResultPageFullURL}</a></span>
+          <p className="description" dangerouslySetInnerHTML={{__html: this.state.wikiSearchReturnValues[key3].queryResultPageSnippet}}></p>
+        </div>
+      );
+    }
+
+    return (
+      <div className="Wikipedia">
+        <h1>Wikipedia Search</h1>
+        <form action="">
+          <input type="text" value={this.state.WikiSearchTerms || ''} onChange={this.changeWikiSearchTerms}
+          placeholder="Search Wikipedia Articles" />
+          <button type="submit" onClick={this.useWikiSearchEngine}>Search</button>
+        </form>
+        {wikiSearchResults}
+      </div>
+    );
   }
 }
 
-function Wikipedia1() {
-  return (
-    <div>Wikipedia
-      <iframe id="frame" src="https://en.wikipedia.org/wiki/Waluigi" height= "100%" width= "100%"></iframe>
 
-    </div>
-  )
-}
-
-export default Wikipedia1
+export default Wikipedia
