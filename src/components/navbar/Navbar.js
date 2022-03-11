@@ -11,26 +11,18 @@ import {GamesDropdown, ProfDropdownFunc} from './Dropdown';
 import { LoggedIn } from '../../firebase';
 
 
+
+
 function Navbar() {
     const [gamesDropdown, setGamesDropDown] = useState(false)
     const [profDropdown, setProfDropDown] = useState(false)
     const [clicked, setClick] = useState(false)
-    const [userIn, userval] = useState(false)
-    let f = null;
-    useEffect(() => {
-        async function checkUser(){
-            const res = await LoggedIn()
-            console.log(res)
-            userval(res !== null)
-            console.log(res !== null)
-        }
-        checkUser();
-        
-      }, [userIn]);
+    const [loading, setLoading] = useState(false)
+    
     
     return (
         <>
-            <nav className="navbar">
+            <nav className="navbar" >
             <a href = "/" style={{ textDecoration: 'none' }}>
                 <h1 className = "navbar-logo">Knome <BiBrain /></h1>
                 </a>  
@@ -51,12 +43,12 @@ function Navbar() {
                         )
                     })} 
                 </ul>
-                {userIn ? <ul className = 'prof-items'>
+                <ul className = 'prof-items'>
                         <li key = '1' className ='prof-item'onMouseEnter ={() => setProfDropDown(true)} onMouseLeave = {() => setProfDropDown(false)}>
                         <Link to='/signup'><CgProfile/> </Link>   
                         {profDropdown && <ProfDropdownFunc />}
                         </li>
-                        </ul> : <h1>Hello</h1> }    
+                        </ul>   
                 
                                      
                         

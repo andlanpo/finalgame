@@ -4,15 +4,22 @@ import { login } from "../firebase"
 import { useNavigate } from "react-router-dom"
 
 
+
 export default function Login({navigation}) {
   const emailRef = useRef()
   const passwordRef = useRef()
   let navigate = useNavigate();
   const [loading, setLoading] = useState(false)
+  const[loggedIn, setLoggedInValue] = useState(false)
+
+  let abortController = new AbortController();
+  let aborted = abortController.signal.aborted;
+
   async function handleLogIn(){
     setLoading(true);
     try {
       await login(emailRef.current.value,passwordRef.current.value)
+      setLoggedInValue(true)
       navigate("/");
     } catch{
       alert("Log In Failed");
