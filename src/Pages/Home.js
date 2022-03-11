@@ -1,8 +1,15 @@
-import React from 'react'
+import {React, useEffect, useState} from 'react'
+import { auth, LoggedIn, logoff } from '../firebase'
 
 function Home() {
+
   return (
-    <h1></h1>
+      <button className='button' onClick={logoff}>
+        </button>
+
+      
+
+      
 
   )
 }
