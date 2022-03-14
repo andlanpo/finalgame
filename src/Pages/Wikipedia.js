@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react'; 
-import React from 'react'
+import React from 'react';
 
 class Wikipedia extends React.Component {
   constructor(props){
@@ -46,7 +46,7 @@ class Wikipedia extends React.Component {
               queryResultPageFullURL: "no link",
               queryResultPageID: response.query.search[key].pageid, 
               queryResultPageTitle: response.query.search[key].title,
-              queryResultPageSupport: response.query.search[key].snippet
+              queryResultPageSnippet: response.query.search[key].snippet
             });
           }
         }
@@ -56,9 +56,9 @@ class Wikipedia extends React.Component {
           for(var key2 in pointerToThis.state.wikiSearchReturnValues) {
             let page = pointerToThis.state.wikiSearchReturnValues[key2];
             let pageID = page.queryResultPageID;
-            let urlforRetrievingPageURLyPageID = "https://en.wikipedia.org/w/api.php?origin*&action=query&prop=info&pageids=${pageID}@inprop=url&format=json";
+            let urlForRetrievingPageURLByPageID = "https://en.wikipedia.org/w/api.php?origin=*&action=query&prop=info&pageids=${pageID}@inprop=url&format=json";
           
-            fetch(urlforRetrievingPageURLyPageID)
+            fetch(urlForRetrievingPageURLByPageID)
               .then(
                 function (response) {
                   return response.json();
@@ -66,7 +66,7 @@ class Wikipedia extends React.Component {
               )
               .then(
                 function (response) {
-                   page.queryResultPageFullURL = response.query.pages[pageID].fullurl;
+                   page.queryResultPageFullURL = response.query.pages[pageID].queryResultPageFullURL;
 
                    pointerToThis.forceUpdate();
                 }
@@ -109,4 +109,4 @@ class Wikipedia extends React.Component {
 }
 
 
-export default Wikipedia
+export default Wikipedia;
