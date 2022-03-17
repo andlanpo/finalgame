@@ -60,7 +60,6 @@ class Wikipedia extends React.Component {
             let page = pointerToThis.state.wikiSearchReturnValues[key2];
             let pageID = page.queryResultPageID;
             let urlForRetrievingPageURLByPageID = `https://en.wikipedia.org/w/api.php?origin=*&action=query&prop=info&pageids=${pageID}&inprop=url&format=json`;
-            //let urlForRetrievingPageURLByPageID = `https://en.wikipedia.org/w/api.php?origin=*&action=query&prop=info&pageids=${pageID}@inprop=url&format=json`; WRONG
           
             fetch(urlForRetrievingPageURLByPageID)
               .then(
