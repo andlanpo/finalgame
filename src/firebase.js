@@ -2,6 +2,7 @@ import {initializeApp}from "firebase/app"
 import {createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signOut} from "firebase/auth"
 
 
+
 const firebaseConfig = {
     apiKey: "AIzaSyBx8dn3Pp2Eb8QKaknoA-yJLIqKazxPTi4",
     authDomain: "finalgame-7cc63.firebaseapp.com",
@@ -24,6 +25,9 @@ export function logoff(){
 }
 
 export function LoggedIn(){
-  return (auth.currentUser)
+  return (auth.onAuthStateChanged)
 }
+auth.onAuthStateChanged(user => {
+  console.log(user)
+})
 
