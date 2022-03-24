@@ -8,7 +8,7 @@ const SignedInLinks = () => {
         <li>  <Link to='/' style={{ textDecoration: 'none' }}>Home </Link> </li>
         <li>  <Link to='/wikiracer' style={{ textDecoration: 'none' }}>Wiki Racer </Link> </li>
 
-        <li>  <Link to='/asltype'style={{ textDecoration: 'none' }}>ASL Type </Link> </li>
+        <li>  <Link to='/aslracer'style={{ textDecoration: 'none' }}>ASL Type </Link> </li>
 
 
 
@@ -16,6 +16,7 @@ const SignedInLinks = () => {
         <li><Link to='/login'style={{ textDecoration: 'none' }} ><CgProfile /></Link></li>
       </ul>
     </div>
+
   )
 }
 
