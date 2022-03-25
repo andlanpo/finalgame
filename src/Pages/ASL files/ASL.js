@@ -1,38 +1,30 @@
 import React, {useRef, useEffect} from 'react'
 import Webcam from "react-webcam";
 import * as tf from "@tensorflow/tfjs"
-import * as handpose from "@tensorflow-models/handpose"
 import * as handPoseDetection from '@tensorflow-models/hand-pose-detection';
+import * as knnClassifier from '@tensorflow-models/knn-classifier';
 import {drawHand} from "./utilities"
 
 
 function ASL() {
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
+  const classifier = knnClassifier.create();
+
 
   const runHandpose = async () => {
     const model = handPoseDetection.SupportedModels.MediaPipeHands;
-const detectorConfig = {
-  runtime: 'tfjs', // or 'tfjs',
-  modelType: 'full'
-}
-  const detector = await handPoseDetection.createDetector(model, detectorConfig);
-  console.log("Model loaded");
-  setInterval(() => {
+    const detectorConfig = {
+    runtime: 'tfjs',
+    modelType: 'full'
+    }
+    const detector = await handPoseDetection.createDetector(model, detectorConfig);
+    console.log("Model loaded");
+    setInterval(() => {
     detect(detector);
   }, 500);
   }
-  
-
-  
-
-  // const runHandpose = async () => {
-  //   const net = await handpose.load();
-  //   console.log("Handpose model loaded.");
-  //   setInterval(() => {
-  //     detect(net);
-  //   }, 10);
-  // };
+ 
   const detect = async (net) => {
     // Check data is available
     if (
@@ -58,7 +50,7 @@ const detectorConfig = {
       const hand = await net.estimateHands(video, estimationConfig);
       //console.log(hand);
 
-      // Draw mesh
+      // Draw dots
       const ctx = canvasRef.current.getContext("2d");
       drawHand(hand, ctx);
     }
