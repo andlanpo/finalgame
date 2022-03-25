@@ -2,7 +2,7 @@ import React from 'react';
 import Navbar from "./components/navbar/Navbar";
 import './App.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import ASL from './Pages/ASL';
+import ASL from './Pages/ASL files/ASL';
 import Home from './Pages/Home';
 import Wikipedia from './Pages/Wikipedia';
 import Signup from './Pages/Signup';
