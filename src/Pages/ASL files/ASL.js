@@ -1,7 +1,8 @@
-import React, {useRef} from 'react'
+import React, {useRef, useEffect} from 'react'
 import Webcam from "react-webcam";
 import * as tf from "@tensorflow/tfjs"
 import * as handpose from "@tensorflow-models/handpose"
+import * as handPoseDetection from '@tensorflow-models/hand-pose-detection';
 import {drawHand} from "./utilities"
 
 
@@ -9,17 +10,31 @@ function ASL() {
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
 
+  const runHandpose = async () => {
+    const model = handPoseDetection.SupportedModels.MediaPipeHands;
+const detectorConfig = {
+  runtime: 'tfjs', // or 'tfjs',
+  modelType: 'full'
+}
+  const detector = await handPoseDetection.createDetector(model, detectorConfig);
+  console.log("Model loaded");
+  setInterval(() => {
+    detect(detector);
+  }, 500);
+  }
   
 
-  const runHandpose = async () => {
-    const net = await handpose.load()
-    console.log('Handpose model loaded')
-    setInterval(()=>{
-      detect(net)
-    }, 10);
+  
 
-  }
+  // const runHandpose = async () => {
+  //   const net = await handpose.load();
+  //   console.log("Handpose model loaded.");
+  //   setInterval(() => {
+  //     detect(net);
+  //   }, 10);
+  // };
   const detect = async (net) => {
+    // Check data is available
     if (
       typeof webcamRef.current !== "undefined" &&
       webcamRef.current !== null &&
@@ -39,16 +54,16 @@ function ASL() {
       canvasRef.current.height = videoHeight;
 
       // Make Detections
-      const hand = await net.estimateHands(video);
-      console.log(hand);
+      const estimationConfig = {flipHorizontal: false};
+      const hand = await net.estimateHands(video, estimationConfig);
+      //console.log(hand);
 
-      // Drawing
-
+      // Draw mesh
       const ctx = canvasRef.current.getContext("2d");
-      drawHand(hand,ctx);
-
+      drawHand(hand, ctx);
     }
-  }
+  };
+
   runHandpose();
   return (
     <div className="ASL">
@@ -63,8 +78,8 @@ function ASL() {
             right: 0,
             textAlign: "center",
             zindex: 9,
-            width: 1000,
-            height: 750,
+            width: 640,
+            height: 480,
           }}
         />
 
@@ -78,8 +93,8 @@ function ASL() {
             right: 0,
             textAlign: "center",
             zindex: 9,
-            width: 1000,
-            height: 750,
+            width: 640,
+            height: 480,
           }}
         />
       </header>
