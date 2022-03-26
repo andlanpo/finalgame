@@ -134,6 +134,10 @@ function ASL() {
 
     // you will have to use a neural network NOT KNN CLASSIFIER, try using LTSM, but check if its best to train
     // on this file or create a new app to train on.
+
+    // Why can't you do this in python, follow tutorial and convert?
+      // idk how to convert this specific model
+      // so you will teach yourself based off tutorial, YES!
   return (
     <div className="ASL">
         <header className="App-header">
