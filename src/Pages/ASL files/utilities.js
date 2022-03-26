@@ -1,36 +1,4 @@
-// // Points for fingers
-// const fingerJoints = {
-//     rightThumb: [0, 1, 2, 3, 4],
-//     rightIndexFinger: [0, 5, 6, 7, 8],
-//     rightMiddleFinger: [0, 9, 10, 11, 12],
-//     rightRingFinger: [0, 13, 14, 15, 16],
-//     rightPinky: [0, 17, 18, 19, 20],
 
-//   };
-  
-//   const style = {
-//     0: { color: "blue", size: 6 },
-//     1: { color: "blue", size: 6 },
-//     2: { color: "blue", size: 6 },
-//     3: { color: "blue", size: 6 },
-//     4: { color: "blue", size: 6 },
-//     5: { color: "blue", size: 6 },
-//     6: { color: "blue", size: 6 },
-//     7: { color: "blue", size: 6 },
-//     8: { color: "blue", size: 6 },
-//     9: { color: "blue", size: 6 },
-//     10: { color: "blue", size: 6 },
-//     11: { color: "blue", size: 6 },
-//     12: { color: "blue", size: 6 },
-//     13: { color: "blue", size: 6 },
-//     14: { color: "blue", size: 6 },
-//     15: { color: "blue", size: 6 },
-//     16: { color: "blue", size: 6 },
-//     17: { color: "blue", size: 6 },
-//     18: { color: "blue", size: 6 },
-//     19: { color: "blue", size: 6 },
-//     20: { color: "blue", size: 6 },
-//   };
   
   // Drawing function
   export const drawHand = (predictions, ctx) => {
@@ -85,7 +53,6 @@
         predictions.forEach((prediction) => {
           // Grab landmarks
           const landmarks = prediction.keypoints;
-          console.log(landmarks);
       
     
           // Loop through landmarks and draw em

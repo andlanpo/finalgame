@@ -24,8 +24,8 @@ function ASL() {
     const faceDetect = await 
     console.log("Model loaded");
     setInterval(() => {
-    detect(detector);
-  }, 0);
+    detectHands(detector);
+  }, 10);
   }
   const runFacemesh = async () => {
     const net = await facemesh.load(facemesh.SupportedPackages.mediapipeFacemesh);
@@ -40,10 +40,7 @@ function ASL() {
       detectBody(detector);
     }, 10);
   };
-
-  
- 
-  const detect = async (net) => {
+  const detectHands = async (net) => {
     // Check data is available
     if (
       typeof webcamRef.current !== "undefined" &&
@@ -131,11 +128,12 @@ function ASL() {
       drawPose(poses, ctx);
     }
   };
-  useEffect(()=>{
-    runFacemesh();
+    //runFacemesh();
     runHandpose();
-    runBodyPose();
-  }, []);
+    //runBodyPose();
+
+    // you will have to use a neural network NOT KNN CLASSIFIER, try using LTSM, but check if its best to train
+    // on this file or create a new app to train on.
   return (
     <div className="ASL">
         <header className="App-header">
@@ -149,8 +147,8 @@ function ASL() {
             right: 0,
             textAlign: "center",
             zindex: 9,
-            width: 640,
-            height: 480,
+            width: 1280,
+            height: 720,
           }}
         />
 
@@ -164,8 +162,8 @@ function ASL() {
             right: 0,
             textAlign: "center",
             zindex: 9,
-            width: 640,
-            height: 480,
+            width: 1280,
+            height: 720,
           }}
         />
       </header>
