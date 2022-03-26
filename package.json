@@ -11,6 +11,7 @@
     "@tensorflow-models/handpose": "^0.0.7",
     "@tensorflow-models/knn-classifier": "^1.2.2",
     "@tensorflow-models/mobilenet": "^2.1.0",
+    "@tensorflow-models/pose-detection": "^2.0.0",
     "@tensorflow/tfjs": "^3.15.0",
     "@tensorflow/tfjs-backend-wasm": "^3.15.0",
     "@tensorflow/tfjs-backend-webgl": "^3.15.0",

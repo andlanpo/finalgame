@@ -3,8 +3,10 @@ import Webcam from "react-webcam";
 import * as tf from "@tensorflow/tfjs"
 import * as handPoseDetection from '@tensorflow-models/hand-pose-detection';
 import * as knnClassifier from '@tensorflow-models/knn-classifier';
+import * as poseDetection from '@tensorflow-models/pose-detection'
 import * as facemesh from "@tensorflow-models/face-landmarks-detection";
-import {drawHand, drawMesh} from "./utilities"
+import {drawHand, drawMesh, drawPose} from "./utilities"
+
 
 
 function ASL() {
@@ -31,6 +33,15 @@ function ASL() {
       detectFace(net);
     }, 10);
   };
+  const runBodyPose = async () => {
+    const model = poseDetection.SupportedModels.MoveNet;
+    const detector = await poseDetection.createDetector(model);    
+    setInterval(() => {
+      detectBody(detector);
+    }, 10);
+  };
+
+  
  
   const detect = async (net) => {
     // Check data is available
@@ -90,9 +101,40 @@ function ASL() {
       requestAnimationFrame(()=>{drawMesh(face, ctx)});
     }
   };
+  const detectBody = async (net) => {
+    // Check data is available
+    if (
+      typeof webcamRef.current !== "undefined" &&
+      webcamRef.current !== null &&
+      webcamRef.current.video.readyState === 4
+    ) {
+      // Get Video Properties
+      const video = webcamRef.current.video;
+      const videoWidth = webcamRef.current.video.videoWidth;
+      const videoHeight = webcamRef.current.video.videoHeight;
+
+      // Set video width
+      webcamRef.current.video.width = videoWidth;
+      webcamRef.current.video.height = videoHeight;
+
+      // Set canvas height and width
+      canvasRef.current.width = videoWidth;
+      canvasRef.current.height = videoHeight;
+
+      // Make Detections
+      const estimationConfig = {flipHorizontal: false};
+      const poses = await net.estimatePoses(video, estimationConfig);
+     
+
+      // Draw dots
+      const ctx = canvasRef.current.getContext("2d");
+      drawPose(poses, ctx);
+    }
+  };
   useEffect(()=>{
     runFacemesh();
     runHandpose();
+    runBodyPose();
   }, []);
   return (
     <div className="ASL">
