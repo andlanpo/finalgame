@@ -40,32 +40,8 @@ const fingerJoints = {
       predictions.forEach((prediction) => {
         // Grab landmarks
         const landmarks = prediction.keypoints;
-        console.log(landmarks);
-  
-        // Loop through fingers
-        for (let j = 0; j < Object.keys(fingerJoints).length; j++) {
-          let finger = Object.keys(fingerJoints)[j];
-          //  Loop through pairs of joints
-          for (let k = 0; k < fingerJoints[finger].length - 1; k++) {
-            // Get pairs of joints
-            const firstJointIndex = fingerJoints[finger][k];
-            const secondJointIndex = fingerJoints[finger][k + 1];
-  
-            // Draw path
-            ctx.beginPath();
-            ctx.moveTo(
-              landmarks[firstJointIndex][0],
-              landmarks[firstJointIndex][1]
-            );
-            ctx.lineTo(
-              landmarks[secondJointIndex][0],
-              landmarks[secondJointIndex][1]
-            );
-            ctx.strokeStyle = "plum";
-            ctx.lineWidth = 4;
-            ctx.stroke();
-          }
-        }
+        console.log(prediction);
+    
   
         // Loop through landmarks and draw em
         for (let i = 0; i < landmarks.length; i++) {
@@ -78,6 +54,24 @@ const fingerJoints = {
   
           // Set line color
           ctx.fillStyle = "blue";
+          ctx.fill();
+        }
+      });
+    }
+  };
+  export const drawMesh = (predictions, ctx) => {
+    if (predictions.length > 0) {
+      predictions.forEach((prediction) => {
+        const keypoints = prediction.scaledMesh;
+  
+        // Draw Dots
+        for (let i = 0; i < keypoints.length; i++) {
+          const x = keypoints[i][0];
+          const y = keypoints[i][1];
+  
+          ctx.beginPath();
+          ctx.arc(x, y, 1 /* radius */, 0, 3 * Math.PI);
+          ctx.fillStyle = "aqua";
           ctx.fill();
         }
       });
