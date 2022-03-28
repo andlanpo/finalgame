@@ -105,7 +105,7 @@ class Wikipedia extends React.Component {
           placeholder="Search Wikipedia Articles" />
           <button type="submit" onClick={this.useWikiSearchEngine}>Search</button>
         </form>
-        {wikiSearchResults}
+        {wikiSearchResults} 
       </div>
     );
   }
