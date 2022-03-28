@@ -53,7 +53,7 @@
         predictions.forEach((prediction) => {
           // Grab landmarks
           const landmarks = prediction.keypoints;
-      
+          console.log(landmarks)
     
           // Loop through landmarks and draw em
           for (let i = 0; i < landmarks.length; i++) {

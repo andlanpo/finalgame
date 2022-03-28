@@ -21,7 +21,6 @@ function ASL() {
     modelType: 'full'
     }
     const detector = await handPoseDetection.createDetector(model, detectorConfig);
-    const faceDetect = await 
     console.log("Model loaded");
     setInterval(() => {
     detectHands(detector);
@@ -128,9 +127,9 @@ function ASL() {
       drawPose(poses, ctx);
     }
   };
-    //runFacemesh();
+    runFacemesh();
     runHandpose();
-    //runBodyPose();
+    runBodyPose();
 
     // you will have to use a neural network NOT KNN CLASSIFIER, try using LTSM, but check if its best to train
     // on this file or create a new app to train on.
@@ -138,6 +137,17 @@ function ASL() {
     // Why can't you do this in python, follow tutorial and convert?
       // idk how to convert this specific model
       // so you will teach yourself based off tutorial, YES!
+      // import brain.js??
+      // import tensorboard
+      // actually just knn screw it
+      // https://github.com/tensorflow/tfjs-models/tree/master/knn-classifier read this
+      // and this https://codelabs.developers.google.com/codelabs/tensorflowjs-audio-codelab/index.html#7
+
+    //OVERVIEW
+
+    //make some kind of collection function that creates an array of all keypoints in a 30 frame segment
+
+    // use this collection data to train with tf.sequential();
   return (
     <div className="ASL">
         <header className="App-header">
