@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react'; 
-import React from 'react';
+import React, { useState } from 'react';
 
 class Wikipedia extends React.Component {
   constructor(props){
@@ -90,13 +90,24 @@ class Wikipedia extends React.Component {
     for(var key3 in this.state.wikiSearchReturnValues) {
       wikiSearchResults.push(
         <div className="searchResultDiv" key={key3}>
-          <h3><a href = {this.state.wikiSearchReturnValues[key3].queryResultPageFullURL}>{this.state.wikiSearchReturnValues[key3].queryResultPageTitle}</a></h3>
+          <h3>{this.state.wikiSearchReturnValues[key3].queryResultPageTitle}</h3>
           <span className="link"><a href = {this.state.wikiSearchReturnValues[key3].queryResultPageFullURL}>{this.state.wikiSearchReturnValues[key3].queryResultPageFullURL}</a></span>
+          <button onClick="addToStart">Start</button>
+          <button onClick="addToFinish">Finish</button>
           <p className="description" dangerouslySetInnerHTML={{__html: this.state.wikiSearchReturnValues[key3].queryResultPageSnippet}}></p>
         </div>
       );
+      //.queryResultPageFullURL for first <h3> part
+      // <h3><a href = {this.state.wikiSearchReturnValues[key3]}>{this.state.wikiSearchReturnValues[key3].queryResultPageTitle}</a></h3>
     }
 
+    function addToStart() {
+
+    }
+
+    function addToFinish() {
+      
+    }
     return (
       <div className="Wikipedia">
         <h1>Wikipedia Search</h1>
@@ -104,6 +115,9 @@ class Wikipedia extends React.Component {
           <input type="text" value={this.state.WikiSearchTerms || ''} onChange={this.changeWikiSearchTerms}
           placeholder="Search Wikipedia Articles" />
           <button type="submit" onClick={this.useWikiSearchEngine}>Search</button>
+          <p>Start:</p>
+          <br></br>
+          <p>Finish:</p>
         </form>
         {wikiSearchResults} 
       </div>
