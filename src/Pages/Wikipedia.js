@@ -10,6 +10,9 @@ class Wikipedia extends React.Component {
     }
   }
 
+ 
+
+
   useWikiSearchEngine = (e) => {
     e.preventDefault();
 
@@ -20,6 +23,8 @@ class Wikipedia extends React.Component {
     const pointerToThis = this;  //around 12 mins in video
 
     var url = "https://en.wikipedia.org/w/api.php"; //straight from documentation
+
+  
 
     var params = {
       action: "query",
@@ -56,7 +61,9 @@ class Wikipedia extends React.Component {
       .then(
         function (response) {
           for(var key2 in pointerToThis.state.wikiSearchReturnValues) {
+            console.log(pointerToThis.state.wikiSearchReturnValues[0].queryResultPageTitle);
             console.log(pointerToThis.state.wikiSearchReturnValues);
+
             let page = pointerToThis.state.wikiSearchReturnValues[key2];
             let pageID = page.queryResultPageID;
             let urlForRetrievingPageURLByPageID = `https://en.wikipedia.org/w/api.php?origin=*&action=query&prop=info&pageids=${pageID}&inprop=url&format=json`;
@@ -88,26 +95,27 @@ class Wikipedia extends React.Component {
     let wikiSearchResults = [];
 
     for(var key3 in this.state.wikiSearchReturnValues) {
+      let count = 0;
       wikiSearchResults.push(
         <div className="searchResultDiv" key={key3}>
           <h3>{this.state.wikiSearchReturnValues[key3].queryResultPageTitle}</h3>
-          <span className="link"><a href = {this.state.wikiSearchReturnValues[key3].queryResultPageFullURL}>{this.state.wikiSearchReturnValues[key3].queryResultPageFullURL}</a></span>
-          <button onClick="addToStart">Start</button>
-          <button onClick="addToFinish">Finish</button>
+          <span className="link"><u>{this.state.wikiSearchReturnValues[key3].queryResultPageFullURL}</u></span>
+          <button>Start</button>
+          <button>Finish</button>
           <p className="description" dangerouslySetInnerHTML={{__html: this.state.wikiSearchReturnValues[key3].queryResultPageSnippet}}></p>
         </div>
       );
+      count++;
       //.queryResultPageFullURL for first <h3> part
       // <h3><a href = {this.state.wikiSearchReturnValues[key3]}>{this.state.wikiSearchReturnValues[key3].queryResultPageTitle}</a></h3>
+
+      //<button onClick= {startValue = count}>Start</button>
+      //<button onClick= {finishValue = count}>Finish</button> (Andrew's idea)
+
+      //maybe create 10 checkboxes and have two search engines for start and finish
     }
 
-    function addToStart() {
-
-    }
-
-    function addToFinish() {
-      
-    }
+    
     return (
       <div className="Wikipedia">
         <h1>Wikipedia Search</h1>
@@ -115,9 +123,9 @@ class Wikipedia extends React.Component {
           <input type="text" value={this.state.WikiSearchTerms || ''} onChange={this.changeWikiSearchTerms}
           placeholder="Search Wikipedia Articles" />
           <button type="submit" onClick={this.useWikiSearchEngine}>Search</button>
-          <p>Start:</p>
+          <p id="start">Start:</p>
           <br></br>
-          <p>Finish:</p>
+          <p id="finish">Finish:</p>
         </form>
         {wikiSearchResults} 
       </div>
