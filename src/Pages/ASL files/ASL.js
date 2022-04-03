@@ -5,11 +5,8 @@ import HOLISTIC, { Holistic } from '@mediapipe/holistic'
 import * as cam from '@mediapipe/camera_utils'
 import * as draw from '@mediapipe/drawing_utils'
 
-let leftHand = []
-let rightHand = [];
-let face = [];
-let pose = [];
-let collection = [];
+
+
 
 //MEDIAPIPE HOLISTIC INSTEAD
 
@@ -18,6 +15,8 @@ function ASL() {
   const canvasRef = useRef(null);
   const connect = window.drawConnectors;
   let camera = null;
+  let sequence = [];
+
   
   function onResults(results) {
     const videoWidth = webcamRef.current.video.videoWidth;
@@ -29,9 +28,6 @@ function ASL() {
 
     const canvasElement = canvasRef.current;
     const canvasCtx = canvasElement.getContext("2d");
-
-    
-  
     canvasCtx.globalCompositeOperation = 'source-over';
     draw.drawConnectors(canvasCtx, results.poseLandmarks, HOLISTIC.POSE_CONNECTIONS,
                    {color: '#C0C0C070', lineWidth: 4});
@@ -50,15 +46,8 @@ function ASL() {
     canvasCtx.restore();
     extractKeypoints(results);
 
-
-
-    //console.log(results.poseLandmarks)
   }
   function extractKeypoints(results){
-    let poseArray = []
-    let rightHandArray = []
-    let leftHandArray = []
-    let faceArray = []
     let resArray = []
     if(results.poseLandmarks){
       results.poseLandmarks.forEach((coord) => {
@@ -109,7 +98,10 @@ function ASL() {
     }
   }
 
-  console.log(resArray)
+  sequence.push(resArray)
+  sequence = sequence.slice(-29)
+
+  console.log(sequence)
 
   }
 
