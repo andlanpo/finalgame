@@ -5,15 +5,10 @@ import HOLISTIC, { Holistic } from '@mediapipe/holistic'
 import * as cam from '@mediapipe/camera_utils'
 import * as draw from '@mediapipe/drawing_utils'
 
-
-let handDetector;
-let bodyDetector;
-let faceDetector;
-let video;
-let estimationConfig;
-let hand;
-let face;
-let pose;
+let leftHand = []
+let rightHand = [];
+let face = [];
+let pose = [];
 let collection = [];
 
 //MEDIAPIPE HOLISTIC INSTEAD
@@ -39,24 +34,83 @@ function ASL() {
   
     canvasCtx.globalCompositeOperation = 'source-over';
     draw.drawConnectors(canvasCtx, results.poseLandmarks, HOLISTIC.POSE_CONNECTIONS,
-                   {color: '#00FF00', lineWidth: 4});
+                   {color: '#C0C0C070', lineWidth: 4});
     draw.drawLandmarks(canvasCtx, results.poseLandmarks,
                   {color: '#FF0000', lineWidth: 2});
     draw.drawConnectors(canvasCtx, results.faceLandmarks, HOLISTIC.FACEMESH_TESSELATION,
                    {color: '#C0C0C070', lineWidth: 1});
     draw.drawConnectors(canvasCtx, results.leftHandLandmarks, HOLISTIC.HAND_CONNECTIONS,
-                   {color: '#CC0000', lineWidth: 5});
+                   {color: '#C0C0C070', lineWidth: 5});
     draw.drawLandmarks(canvasCtx, results.leftHandLandmarks,
-                  {color: '#00FF00', lineWidth: 2});
+                  {color: 'lavender', lineWidth: 2});
     draw.drawConnectors(canvasCtx, results.rightHandLandmarks, HOLISTIC.HAND_CONNECTIONS,
-                   {color: '#00CC00', lineWidth: 5});
+                   {color: '#C0C0C070', lineWidth: 5});
     draw.drawLandmarks(canvasCtx, results.rightHandLandmarks,
-                  {color: '#FF0000', lineWidth: 2});
+                  {color: 'teal', lineWidth: 2});
     canvasCtx.restore();
+    extractKeypoints(results);
 
 
 
     //console.log(results.poseLandmarks)
+  }
+  function extractKeypoints(results){
+    let poseArray = []
+    let rightHandArray = []
+    let leftHandArray = []
+    let faceArray = []
+    let resArray = []
+    if(results.poseLandmarks){
+      results.poseLandmarks.forEach((coord) => {
+        resArray.push(coord.x,coord.y, coord.z, coord.visibility)
+    });
+  }
+  else {
+    let poseCount = 0;
+    while(poseCount < 33*4){
+      resArray.push(0)
+      poseCount++;
+    }
+  }
+  if(results.faceLandmarks){
+    results.faceLandmarks.forEach((coord) => {
+      resArray.push(coord.x, coord.y, coord.z)
+    });
+  }
+  else {
+    let faceCount = 0;
+    while(faceCount < 478*3){
+      resArray.push(0)
+      faceCount++;
+    }
+  }
+  if(results.rightHandLandmarks){
+    results.rightHandLandmarks.forEach((coord) => {
+      resArray.push(coord.x, coord.y, coord.z)
+    });
+  }
+  else {
+    let rightHandCount = 0;
+    while(rightHandCount < 21*3){
+      resArray.push(0)
+      rightHandCount++;
+    }
+  }
+  if(results.leftHandLandmarks){
+    results.leftHandLandmarks.forEach((coord) => {
+      resArray.push(coord.x, coord.y, coord.z)
+    });
+  }
+  else {
+    let leftHandCount = 0;
+    while(leftHandCount < 21*3){
+      resArray.push(0)
+      leftHandCount++;
+    }
+  }
+
+  console.log(resArray)
+
   }
 
   useEffect(() => {
@@ -75,7 +129,6 @@ function ASL() {
     refineFaceLandmarks: true,
     });
     holistic.onResults(onResults);
-
     if (
       typeof webcamRef.current !== "undefined" &&
       webcamRef.current !== null
