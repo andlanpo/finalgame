@@ -24,7 +24,8 @@ class Wikipedia extends React.Component {
 
     var url = "https://en.wikipedia.org/w/api.php"; //straight from documentation
 
-  
+
+    var startTitles = new Array(10);
 
     var params = {
       action: "query",
@@ -61,9 +62,14 @@ class Wikipedia extends React.Component {
       .then(
         function (response) {
           for(var key2 in pointerToThis.state.wikiSearchReturnValues) {
-            console.log(pointerToThis.state.wikiSearchReturnValues[0].queryResultPageTitle);
-            console.log(pointerToThis.state.wikiSearchReturnValues);
-
+            //console.log(titles);
+            // console.log(pointerToThis.state.wikiSearchReturnValues[0].queryResultPageTitle);
+            // console.log(pointerToThis.state.wikiSearchReturnValues);
+            for(let i = 0; i < 10; i++){
+              console.log(pointerToThis.state.wikiSearchReturnValues[0].queryResultPageTitle);
+              startTitles.push(pointerToThis.state.wikiSearchReturnValues[i].queryResultPageTitle);
+              console.log(startTitles[i]);
+            }
             let page = pointerToThis.state.wikiSearchReturnValues[key2];
             let pageID = page.queryResultPageID;
             let urlForRetrievingPageURLByPageID = `https://en.wikipedia.org/w/api.php?origin=*&action=query&prop=info&pageids=${pageID}&inprop=url&format=json`;
