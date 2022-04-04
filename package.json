@@ -3,7 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@mediapipe/camera_utils": "^0.3.1640029074",
+    "@mediapipe/drawing_utils": "^0.3.1620248257",
     "@mediapipe/hands": "^0.4.1646424915",
+    "@mediapipe/holistic": "^0.5.1635989137",
     "@microduino/tf-knn-classifier": "^1.0.3-alpha",
     "@react-navigation/native-stack": "^6.5.0",
     "@tensorflow-models/face-landmarks-detection": "^0.0.3",

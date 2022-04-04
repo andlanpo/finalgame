@@ -1,153 +1,144 @@
 import React, {useRef, useEffect} from 'react'
 import Webcam from "react-webcam";
 import * as tf from "@tensorflow/tfjs"
-import * as handPoseDetection from '@tensorflow-models/hand-pose-detection';
-import * as knnClassifier from '@tensorflow-models/knn-classifier';
-import * as poseDetection from '@tensorflow-models/pose-detection'
-import * as facemesh from "@tensorflow-models/face-landmarks-detection";
-import {drawHand, drawMesh, drawPose} from "./utilities"
+import HOLISTIC, { Holistic } from '@mediapipe/holistic'
+import * as cam from '@mediapipe/camera_utils'
+import * as draw from '@mediapipe/drawing_utils'
 
 
+
+
+//MEDIAPIPE HOLISTIC INSTEAD
 
 function ASL() {
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
+  const connect = window.drawConnectors;
+  let camera = null;
+  let sequence = [];
+
+  
+  function onResults(results) {
+    const videoWidth = webcamRef.current.video.videoWidth;
+    const videoHeight = webcamRef.current.video.videoHeight;
+
+    // Set canvas width
+    canvasRef.current.width = videoWidth;
+    canvasRef.current.height = videoHeight;
+
+    const canvasElement = canvasRef.current;
+    const canvasCtx = canvasElement.getContext("2d");
+    canvasCtx.globalCompositeOperation = 'source-over';
+    draw.drawConnectors(canvasCtx, results.poseLandmarks, HOLISTIC.POSE_CONNECTIONS,
+                   {color: '#C0C0C070', lineWidth: 4});
+    draw.drawLandmarks(canvasCtx, results.poseLandmarks,
+                  {color: '#FF0000', lineWidth: 2});
+    draw.drawConnectors(canvasCtx, results.faceLandmarks, HOLISTIC.FACEMESH_TESSELATION,
+                   {color: '#C0C0C070', lineWidth: 1});
+    draw.drawConnectors(canvasCtx, results.leftHandLandmarks, HOLISTIC.HAND_CONNECTIONS,
+                   {color: '#C0C0C070', lineWidth: 5});
+    draw.drawLandmarks(canvasCtx, results.leftHandLandmarks,
+                  {color: 'lavender', lineWidth: 2});
+    draw.drawConnectors(canvasCtx, results.rightHandLandmarks, HOLISTIC.HAND_CONNECTIONS,
+                   {color: '#C0C0C070', lineWidth: 5});
+    draw.drawLandmarks(canvasCtx, results.rightHandLandmarks,
+                  {color: 'teal', lineWidth: 2});
+    canvasCtx.restore();
+    extractKeypoints(results);
+
+  }
+  function extractKeypoints(results){
+    let resArray = []
+    if(results.poseLandmarks){
+      results.poseLandmarks.forEach((coord) => {
+        resArray.push(coord.x,coord.y, coord.z, coord.visibility)
+    });
+  }
+  else {
+    let poseCount = 0;
+    while(poseCount < 33*4){
+      resArray.push(0)
+      poseCount++;
+    }
+  }
+  if(results.faceLandmarks){
+    results.faceLandmarks.forEach((coord) => {
+      resArray.push(coord.x, coord.y, coord.z)
+    });
+  }
+  else {
+    let faceCount = 0;
+    while(faceCount < 478*3){
+      resArray.push(0)
+      faceCount++;
+    }
+  }
+  if(results.rightHandLandmarks){
+    results.rightHandLandmarks.forEach((coord) => {
+      resArray.push(coord.x, coord.y, coord.z)
+    });
+  }
+  else {
+    let rightHandCount = 0;
+    while(rightHandCount < 21*3){
+      resArray.push(0)
+      rightHandCount++;
+    }
+  }
+  if(results.leftHandLandmarks){
+    results.leftHandLandmarks.forEach((coord) => {
+      resArray.push(coord.x, coord.y, coord.z)
+    });
+  }
+  else {
+    let leftHandCount = 0;
+    while(leftHandCount < 21*3){
+      resArray.push(0)
+      leftHandCount++;
+    }
+  }
+
+  sequence.push(resArray)
+  sequence = sequence.slice(-29)
+
+  console.log(sequence)
+
+  }
+
+  useEffect(() => {
+    const holistic = new Holistic({
+      locateFile: (file) => {
+        return `https://cdn.jsdelivr.net/npm/@mediapipe/holistic/${file}`;      },
+    });
+
+    holistic.setOptions({
+      modelComplexity: 1,
+      minDetectionConfidence: 0.5,
+      minTrackingConfidence: 0.5,
+      smoothLandmarks: true,
+    enableSegmentation: true,
+    smoothSegmentation: true,
+    refineFaceLandmarks: true,
+    });
+    holistic.onResults(onResults);
+    if (
+      typeof webcamRef.current !== "undefined" &&
+      webcamRef.current !== null
+    ) {
+      camera = new cam.Camera(webcamRef.current.video, {
+        onFrame: async () => {
+          await holistic.send({image: webcamRef.current.video});
+        },
+        width: 1280,
+        height: 720
+      });
+      camera.start();
+    }
+  }, []);
   
 
-  const runHandpose = async () => {
-    const model = handPoseDetection.SupportedModels.MediaPipeHands;
-    const detectorConfig = {
-    runtime: 'tfjs',
-    modelType: 'full'
-    }
-    const detector = await handPoseDetection.createDetector(model, detectorConfig);
-    console.log("Model loaded");
-    setInterval(() => {
-    detectHands(detector);
-  }, 10);
-  }
-  const runFacemesh = async () => {
-    const net = await facemesh.load(facemesh.SupportedPackages.mediapipeFacemesh);
-    setInterval(() => {
-      detectFace(net);
-    }, 10);
-  };
-  const runBodyPose = async () => {
-    const model = poseDetection.SupportedModels.MoveNet;
-    const detector = await poseDetection.createDetector(model);    
-    setInterval(() => {
-      detectBody(detector);
-    }, 10);
-  };
-  const detectHands = async (net) => {
-    // Check data is available
-    if (
-      typeof webcamRef.current !== "undefined" &&
-      webcamRef.current !== null &&
-      webcamRef.current.video.readyState === 4
-    ) {
-      // Get Video Properties
-      const video = webcamRef.current.video;
-      const videoWidth = webcamRef.current.video.videoWidth;
-      const videoHeight = webcamRef.current.video.videoHeight;
-
-      // Set video width
-      webcamRef.current.video.width = videoWidth;
-      webcamRef.current.video.height = videoHeight;
-
-      // Set canvas height and width
-      canvasRef.current.width = videoWidth;
-      canvasRef.current.height = videoHeight;
-
-      // Make Detections
-      const estimationConfig = {flipHorizontal: false};
-      const hand = await net.estimateHands(video, estimationConfig);
-      //console.log(hand);
-
-      // Draw dots
-      const ctx = canvasRef.current.getContext("2d");
-      drawHand(hand, ctx);
-    }
-  };
-  const detectFace = async (net) => {
-    // Check data is available
-    if (
-      typeof webcamRef.current !== "undefined" &&
-      webcamRef.current !== null &&
-      webcamRef.current.video.readyState === 4
-    ) {
-      // Get Video Properties
-      const video = webcamRef.current.video;
-      const videoWidth = webcamRef.current.video.videoWidth;
-      const videoHeight = webcamRef.current.video.videoHeight;
-
-      // Set video width
-      webcamRef.current.video.width = videoWidth;
-      webcamRef.current.video.height = videoHeight;
-
-      // Set canvas height and width
-      canvasRef.current.width = videoWidth;
-      canvasRef.current.height = videoHeight;
-
-      const estimationConfig = {flipHorizontal: false};
-      const face = await net.estimateFaces({input:video}, estimationConfig);
-
-      // Get canvas context
-      const ctx = canvasRef.current.getContext("2d");
-      requestAnimationFrame(()=>{drawMesh(face, ctx)});
-    }
-  };
-  const detectBody = async (net) => {
-    // Check data is available
-    if (
-      typeof webcamRef.current !== "undefined" &&
-      webcamRef.current !== null &&
-      webcamRef.current.video.readyState === 4
-    ) {
-      // Get Video Properties
-      const video = webcamRef.current.video;
-      const videoWidth = webcamRef.current.video.videoWidth;
-      const videoHeight = webcamRef.current.video.videoHeight;
-
-      // Set video width
-      webcamRef.current.video.width = videoWidth;
-      webcamRef.current.video.height = videoHeight;
-
-      // Set canvas height and width
-      canvasRef.current.width = videoWidth;
-      canvasRef.current.height = videoHeight;
-
-      // Make Detections
-      const estimationConfig = {flipHorizontal: false};
-      const poses = await net.estimatePoses(video, estimationConfig);
-     
-
-      // Draw dots
-      const ctx = canvasRef.current.getContext("2d");
-      drawPose(poses, ctx);
-    }
-  };
-    runFacemesh();
-    runHandpose();
-    runBodyPose();
-
-    // you will have to use a neural network NOT KNN CLASSIFIER, try using LTSM, but check if its best to train
-    // on this file or create a new app to train on.
-
-    // Why can't you do this in python, follow tutorial and convert?
-      // idk how to convert this specific model
-      // so you will teach yourself based off tutorial, YES!
-      // import brain.js??
-      // import tensorboard
-      // actually just knn screw it
-      // https://github.com/tensorflow/tfjs-models/tree/master/knn-classifier read this
-      // and this https://codelabs.developers.google.com/codelabs/tensorflowjs-audio-codelab/index.html#7
-
-    //OVERVIEW
-
-    //make some kind of collection function that creates an array of all keypoints in a 30 frame segment
-
-    // use this collection data to train with tf.sequential();
+ 
+    
   return (
     <div className="ASL">
         <header className="App-header">
