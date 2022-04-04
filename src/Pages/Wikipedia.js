@@ -25,7 +25,7 @@ class Wikipedia extends React.Component {
     var url = "https://en.wikipedia.org/w/api.php"; //straight from documentation
 
 
-    var startTitles = new Array(10);
+    let startTitles = [];
 
     var params = {
       action: "query",
@@ -61,15 +61,12 @@ class Wikipedia extends React.Component {
       )
       .then(
         function (response) {
-          for(var key2 in pointerToThis.state.wikiSearchReturnValues) {
-            //console.log(titles);
-            // console.log(pointerToThis.state.wikiSearchReturnValues[0].queryResultPageTitle);
-            // console.log(pointerToThis.state.wikiSearchReturnValues);
-            for(let i = 0; i < 10; i++){
-              console.log(pointerToThis.state.wikiSearchReturnValues[0].queryResultPageTitle);
+          var i = 0;
+          for(var key2 in pointerToThis.state.wikiSearchReturnValues) { //so this for loop runs 10 times
               startTitles.push(pointerToThis.state.wikiSearchReturnValues[i].queryResultPageTitle);
-              console.log(startTitles[i]);
-            }
+              i++;
+              console.log(startTitles);
+              console.log(startTitles.length);
             let page = pointerToThis.state.wikiSearchReturnValues[key2];
             let pageID = page.queryResultPageID;
             let urlForRetrievingPageURLByPageID = `https://en.wikipedia.org/w/api.php?origin=*&action=query&prop=info&pageids=${pageID}&inprop=url&format=json`;
@@ -105,6 +102,7 @@ class Wikipedia extends React.Component {
       wikiSearchResults.push(
         <div className="searchResultDiv" key={key3}>
           <h3>{this.state.wikiSearchReturnValues[key3].queryResultPageTitle}</h3>
+          <button id="title">{this.state.wikiSearchReturnValues[key3].queryResultPageTitle}</button>
           <span className="link"><u>{this.state.wikiSearchReturnValues[key3].queryResultPageFullURL}</u></span>
           <button>Start</button>
           <button>Finish</button>
