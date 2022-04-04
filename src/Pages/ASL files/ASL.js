@@ -1,6 +1,5 @@
 import React, {useRef, useEffect} from 'react'
 import Webcam from "react-webcam";
-import * as tf from "@tensorflow/tfjs"
 import HOLISTIC, { Holistic } from '@mediapipe/holistic'
 import * as cam from '@mediapipe/camera_utils'
 import * as draw from '@mediapipe/drawing_utils'
@@ -62,13 +61,15 @@ function ASL() {
     }
   }
   if(results.faceLandmarks){
-    results.faceLandmarks.forEach((coord) => {
+    for(let i = 0; i< results.faceLandmarks.length - 10; i++){
+      let coord = results.faceLandmarks[i]
       resArray.push(coord.x, coord.y, coord.z)
-    });
+
+    }
   }
   else {
     let faceCount = 0;
-    while(faceCount < 478*3){
+    while(faceCount < 468*3){
       resArray.push(0)
       faceCount++;
     }
@@ -100,8 +101,8 @@ function ASL() {
 
   sequence.push(resArray)
   sequence = sequence.slice(-29)
-
   console.log(sequence)
+
 
   }
 
