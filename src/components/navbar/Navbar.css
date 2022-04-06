@@ -1,74 +1,11 @@
-.navbar {
-    height: 10vh;
-    background: purple;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+*{
+    padding-left: 0;
+    padding-right: 0;
 }
-
-.navbar-logo {
-    color: white;
-    text-decoration: none;
-    font-size: 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 10rem;
-}
-.prof-items {
-    display: flex;
-    list-style: none;
-    text-align: center;
-    height: 10vh;
-    justify-content: flex-end;
-}
-.prof-item{
-    display: flex;
-    align-items: center;
-}
-
-.prof-item a{
-    text-decoration: none;
-    color: white;
-    font-size: 1.1rem;
-    margin-right: 1rem;
-    padding: 6px 16px;
-    border-radius: 5px;
-}
-
-.prof-item a:hover{
-    background: rgb(0,0,200);
-}
-
-
-
-
-.nav-items {
-    display: flex;
-    list-style: none;
-    text-align: center;
-    width: 80vw;
-    height: 10vh;
-    justify-content: flex-end;
-}
-.nav-item{
-    display: flex;
-    align-items: center;
-}
-
-.nav-item a{
-    text-decoration: none;
-    color: white;
-    font-size: 1.1rem;
-    margin-right: 1rem;
-    padding: 6px 16px;
-    border-radius: 5px;
-}
-
-.nav-item a:hover{
-    background: rgb(0,0,200);
-}
-.menu-icon {
-    display: none;
-}
+.drag-target {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    top: 0;
+    z-index: 998;
+  }

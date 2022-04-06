@@ -15,19 +15,23 @@ const app = initializeApp(firebaseConfig)
 export const auth = getAuth(app)
 
 export function signup(email, password){
-    return createUserWithEmailAndPassword(auth, email, password)
+  return createUserWithEmailAndPassword(auth, email, password)
 }
 export function login(email, password){
-  return signInWithEmailAndPassword(auth, email, password)
+return signInWithEmailAndPassword(auth, email, password)
 }
 export function logoff(){
-  return signOut(auth)
+return signOut(auth)
 }
 
 export function LoggedIn(){
-  return (auth.onAuthStateChanged)
+return (auth.onAuthStateChanged)
 }
-auth.onAuthStateChanged(user => {
+
+const unsubscribe = auth.onAuthStateChanged(user => {
   console.log(user)
-})
+
+}
+)
+
 
