@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 class Wikipedia extends React.Component {
   constructor(props){
     super(props);
+    this.count = 0; 
     this.state = {
       wikiSearchReturnValues: [],
       wikiSearchTerms: ""
@@ -25,7 +26,7 @@ class Wikipedia extends React.Component {
     var url = "https://en.wikipedia.org/w/api.php"; //straight from documentation
 
 
-    var startTitles = new Array(10);
+    let startTitles = [];
 
     var params = {
       action: "query",
@@ -61,15 +62,12 @@ class Wikipedia extends React.Component {
       )
       .then(
         function (response) {
-          for(var key2 in pointerToThis.state.wikiSearchReturnValues) {
-            //console.log(titles);
-            // console.log(pointerToThis.state.wikiSearchReturnValues[0].queryResultPageTitle);
-            // console.log(pointerToThis.state.wikiSearchReturnValues);
-            for(let i = 0; i < 10; i++){
-              console.log(pointerToThis.state.wikiSearchReturnValues[0].queryResultPageTitle);
+          var i = 0;
+          for(var key2 in pointerToThis.state.wikiSearchReturnValues) { //so this for loop runs 10 times
               startTitles.push(pointerToThis.state.wikiSearchReturnValues[i].queryResultPageTitle);
-              console.log(startTitles[i]);
-            }
+              i++;
+              console.log(startTitles);
+              console.log(startTitles.length);
             let page = pointerToThis.state.wikiSearchReturnValues[key2];
             let pageID = page.queryResultPageID;
             let urlForRetrievingPageURLByPageID = `https://en.wikipedia.org/w/api.php?origin=*&action=query&prop=info&pageids=${pageID}&inprop=url&format=json`;
@@ -97,21 +95,25 @@ class Wikipedia extends React.Component {
     });
   }
 
+  start() {
+    console.log(this.count);
+  }
+  
   render() {
     let wikiSearchResults = [];
 
     for(var key3 in this.state.wikiSearchReturnValues) {
-      let count = 0;
+      this.count = 1; //setState or setValue hook
       wikiSearchResults.push(
         <div className="searchResultDiv" key={key3}>
           <h3>{this.state.wikiSearchReturnValues[key3].queryResultPageTitle}</h3>
           <span className="link"><u>{this.state.wikiSearchReturnValues[key3].queryResultPageFullURL}</u></span>
-          <button>Start</button>
-          <button>Finish</button>
+          <button onClick={this.start}>Start</button>
+          <button onClick={this.start}>Finish</button>
           <p className="description" dangerouslySetInnerHTML={{__html: this.state.wikiSearchReturnValues[key3].queryResultPageSnippet}}></p>
         </div>
       );
-      count++;
+
       //.queryResultPageFullURL for first <h3> part
       // <h3><a href = {this.state.wikiSearchReturnValues[key3]}>{this.state.wikiSearchReturnValues[key3].queryResultPageTitle}</a></h3>
 
@@ -120,6 +122,7 @@ class Wikipedia extends React.Component {
 
       //maybe create 10 checkboxes and have two search engines for start and finish
     }
+    
 
     
     return (
