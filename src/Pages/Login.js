@@ -42,7 +42,7 @@ export default function Login({navigation}) {
               <Form.Label>Password</Form.Label>
               <Form.Control type="password" ref={passwordRef} required />
             </Form.Group>
-            <Button onClick = {handleLogIn} disabled = {loading} className="w-100" type="submit">
+            <Button onClick = {handleLogIn} disabled = {loading} className="btn-btn purple" type="submit">
               Login
             </Button>
           </Form>
