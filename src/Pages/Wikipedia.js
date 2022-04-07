@@ -21,15 +21,16 @@ class Wikipedia extends React.Component {
     e.preventDefault();
 
     this.setState({
-      wikiSearchReturnValues: []
+      wikiSearchReturnValues2: []
     });
-
+    
     const pointerToThis = this;  //around 12 mins in video
 
     var url = "https://en.wikipedia.org/w/api.php"; //straight from documentation
 
 
     let startTitles = [];
+    let wikiSearchReturnValues2 = [];
 
     var params = {
       action: "query",
@@ -54,24 +55,28 @@ class Wikipedia extends React.Component {
       .then(
         function (response) {
           for (var key in response.query.search) {
-            pointerToThis.state.wikiSearchReturnValues.push({
+            pointerToThis.state.wikiSearchReturnValues2.push({
               queryResultPageFullURL: 'no link',
               queryResultPageID: response.query.search[key].pageid, 
               queryResultPageTitle: response.query.search[key].title,
               queryResultPageSnippet: response.query.search[key].snippet
             });
+            //console.log(wikiSearchReturnValues.length);
           }
+          
         }
+       
       )
+      
       .then(
         function (response) {
           var i = 0;
-          for(var key2 in pointerToThis.state.wikiSearchReturnValues) { //so this for loop runs 10 times
-              startTitles.push(pointerToThis.state.wikiSearchReturnValues[i].queryResultPageTitle);
+          for(var key2 in pointerToThis.state.wikiSearchReturnValues2) { //so this for loop runs 10 times
+              startTitles.push(pointerToThis.state.wikiSearchReturnValues2[i].queryResultPageTitle);
               i++;
               // console.log(startTitles);
-              // console.log(startTitles.length);
-            let page = pointerToThis.state.wikiSearchReturnValues[key2];
+              //console.log(startTitles.length);
+            let page = pointerToThis.state.wikiSearchReturnValues2[key2];
             let pageID = page.queryResultPageID;
             let urlForRetrievingPageURLByPageID = `https://en.wikipedia.org/w/api.php?origin=*&action=query&prop=info&pageids=${pageID}&inprop=url&format=json`;
           
@@ -111,23 +116,25 @@ class Wikipedia extends React.Component {
   render() {
     let wikiSearchResults = [];
 
-    for(var key3 in this.state.wikiSearchReturnValues) { //CHECK LENGTH OF WIKISEARCHRETURNVALUES
+    for(var key3 in this.state.wikiSearchReturnValues2) { //CHECK LENGTH OF WIKISEARCHRETURNVALUES
       this.count = key3;
       this.time++;
       wikiSearchResults.push(
         <div className="searchResultDiv" key={key3}>
-          <h3>{this.state.wikiSearchReturnValues[key3].queryResultPageTitle}</h3>
-          <span className="link"><u>{this.state.wikiSearchReturnValues[key3].queryResultPageFullURL}</u></span>
+          <h3>{this.state.wikiSearchReturnValues2[key3].queryResultPageTitle}</h3>
+          <span className="link"><u>{this.state.wikiSearchReturnValues2[key3].queryResultPageFullURL}</u></span>
           <button onClick={this.start}>Start</button>
           <button onClick={this.finish}>Finish</button>
-          <p className="description" dangerouslySetInnerHTML={{__html: this.state.wikiSearchReturnValues[key3].queryResultPageSnippet}}></p>
+          <p className="description" dangerouslySetInnerHTML={{__html: this.state.wikiSearchReturnValues2[key3].queryResultPageSnippet}}></p>
         </div>
       );
       console.log(this.time);
-      console.log(this.state.wikiSearchReturnValues[key3].queryResultPageTitle);
+      console.log(this.state.wikiSearchReturnValues2[key3].queryResultPageTitle);
+      console.log(this.state.wikiSearchReturnValues2.length);
     }
 
-    //console.log(this.time);
+
+   
     
 
     return (

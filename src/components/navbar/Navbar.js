@@ -23,11 +23,11 @@ const Navbar = () => {
   
     return (
 
-          <nav class = "nav-wrapper purple darken-3" >
-    <div class= 'container' style ={{textDecoration: 'none'}}>
-      <a href="/"  style ={{textDecoration: 'none', background: '#6a1b9a'}} class="brand-logo">Knome <BiBrain style = {{background: '#6a1b9a'}}/></a>
-      <a href="#"  style ={{textDecoration: 'none', background: '#6a1b9a'}} data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons" style = {{background: '#6a1b9a'}}><GiHamburgerMenu style = {{background: '#6a1b9a'}}/></i></a>
-      <ul class="right hide-on-med-and-down">
+          <nav className = "nav-wrapper purple darken-3" >
+    <div className= 'container' style ={{textDecoration: 'none'}}>
+      <a href="/"  style ={{textDecoration: 'none', background: '#6a1b9a'}} className="brand-logo">Knome <BiBrain style = {{background: '#6a1b9a'}}/></a>
+      <a href="#"  style ={{textDecoration: 'none', background: '#6a1b9a'}} data-target="mobile-demo" className="sidenav-trigger"><i className="material-icons" style = {{background: '#6a1b9a'}}><GiHamburgerMenu style = {{background: '#6a1b9a'}}/></i></a>
+      <ul className="right hide-on-med-and-down">
         <li><a href="/" style ={{textDecoration: 'none', background: '#6a1b9a'}}>Home</a></li>
         <li><a href="/wikiRacer" style ={{textDecoration: 'none', background: '#6a1b9a'}}>Wiki Racer</a></li>
         <li><a href="/aslRacer" style ={{textDecoration: 'none', background: '#6a1b9a'}}>ASL Type</a></li>
@@ -35,7 +35,7 @@ const Navbar = () => {
       </ul>
     </div>
 
-  <ul class="sidenav"  style = {{background: '#6a1b9a'}}id="mobile-demo">
+  <ul className="sidenav"  style = {{background: '#6a1b9a'}}id="mobile-demo">
     <li><a href="/"style ={{textDecoration: 'none', background: '#6a1b9a', color: 'white'}}>Home</a></li>
         <li><a href="/wikiRacer"style ={{textDecoration: 'none', background: '#6a1b9a', color: 'white'}}>Wiki Racer</a></li>
         <li><a href="/aslRacer"style ={{textDecoration: 'none', background: '#6a1b9a', color: 'white'}}>ASL Type</a></li>
