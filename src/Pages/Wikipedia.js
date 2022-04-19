@@ -11,7 +11,7 @@ class Wikipedia extends React.Component {
     }
     this.start = this.start.bind(this); //https://reactjs.org/docs/handling-events.html
     this.finish = this.finish.bind(this);
-    this.time = 0;
+    this.time2 = 0;
   }
 
  
@@ -118,7 +118,8 @@ class Wikipedia extends React.Component {
 
     for(var key3 in this.state.wikiSearchReturnValues2) { //CHECK LENGTH OF WIKISEARCHRETURNVALUES
       this.count = key3;
-      this.time++;
+      this.time2++;
+      console.log("updated time by 1");
       wikiSearchResults.push(
         <div className="searchResultDiv" key={key3}>
           <h3>{this.state.wikiSearchReturnValues2[key3].queryResultPageTitle}</h3>
@@ -128,9 +129,13 @@ class Wikipedia extends React.Component {
           <p className="description" dangerouslySetInnerHTML={{__html: this.state.wikiSearchReturnValues2[key3].queryResultPageSnippet}}></p>
         </div>
       );
-      console.log(this.time);
+      // if(this.time > 10) {
+      //   break;
+      // }
+      console.log(this.time2);
       console.log(this.state.wikiSearchReturnValues2[key3].queryResultPageTitle);
-      console.log(this.state.wikiSearchReturnValues2.length);
+      //console.log(this.state.wikiSearchReturnValues2.length);
+      console.log(wikiSearchResults.length);
     }
 
 
