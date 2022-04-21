@@ -11,13 +11,14 @@ class Wikipedia extends React.Component {
     }
     this.start = this.start.bind(this); //https://reactjs.org/docs/handling-events.html
     this.finish = this.finish.bind(this);
-    this.time2 = 0;
+    this.time = 0;
   }
 
  
 
 
   useWikiSearchEngine = (e) => {
+    //console.clear();
     e.preventDefault();
 
     this.setState({
@@ -104,12 +105,13 @@ class Wikipedia extends React.Component {
   }
 
    start() {
-    console.log(this.count);
+    //console.log(this.count);
     console.log(" Start Works!");
+
    }
 
    finish() {
-    console.log(this.count);
+    //console.log(this.count);
     console.log(" Finish Works!");
    }
   
@@ -117,9 +119,9 @@ class Wikipedia extends React.Component {
     let wikiSearchResults = [];
 
     for(var key3 in this.state.wikiSearchReturnValues2) { //CHECK LENGTH OF WIKISEARCHRETURNVALUES
-      this.count = key3;
-      this.time2++;
-      console.log("updated time by 1");
+      //this.count = key3;
+      this.time++;
+      //console.log("updated time by 1");
       wikiSearchResults.push(
         <div className="searchResultDiv" key={key3}>
           <h3>{this.state.wikiSearchReturnValues2[key3].queryResultPageTitle}</h3>
@@ -129,10 +131,11 @@ class Wikipedia extends React.Component {
           <p className="description" dangerouslySetInnerHTML={{__html: this.state.wikiSearchReturnValues2[key3].queryResultPageSnippet}}></p>
         </div>
       );
-      // if(this.time > 10) {
-      //   break;
-      // }
-      console.log(this.time2);
+      if(this.time > 10) {
+        break;
+      }
+      //RESET TIME
+      console.log(this.time);
       console.log(this.state.wikiSearchReturnValues2[key3].queryResultPageTitle);
       //console.log(this.state.wikiSearchReturnValues2.length);
       console.log(wikiSearchResults.length);
