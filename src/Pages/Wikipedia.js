@@ -11,14 +11,18 @@ class Wikipedia extends React.Component {
     }
     this.start = this.start.bind(this); //https://reactjs.org/docs/handling-events.html
     this.finish = this.finish.bind(this);
+    this.checkButton = this.checkButton.bind(this);
     this.time = 0;
+    this.currentTitle = "";
+    this.currentStartTitle = "";
+    this.currentFinishTitle = "";
   }
 
  
 
 
   useWikiSearchEngine = (e) => {
-    //console.clear();
+    this.time = 0;
     e.preventDefault();
 
     this.setState({
@@ -105,23 +109,40 @@ class Wikipedia extends React.Component {
   }
 
    start() {
-    //console.log(this.count);
-    console.log(" Start Works!");
-
+    console.log("Start Works!");
+    this.currentStartTitle = this.currentTitle;
+    document.getElementById("start").innerHTML = this.currentStartTitle;
+    this.checkButton();
    }
 
    finish() {
-    //console.log(this.count);
-    console.log(" Finish Works!");
+    console.log("Finish Works!");
+    this.currentFinishTitle = this.currentTitle;
+    document.getElementById("finish").innerHTML = this.currentFinishTitle;
+    this.checkButton();
    }
+
+   checkButton() {
+     var pStart = document.getElementById("start");
+     var pFinish = document.getElementById("finish");
+     if(pStart != "" && pFinish != ""){
+       console.log(pStart);
+       console.log(pFinish);
+       console.log(this.currentFinishTitle);
+       let playButton = document.createElement("button");
+       playButton.innerHTML = "Play";
+       playButton.type = "submit";
+       document.body.appendChild(playButton);
+     }
+   }
+
+  
   
   render() {
     let wikiSearchResults = [];
 
     for(var key3 in this.state.wikiSearchReturnValues2) { //CHECK LENGTH OF WIKISEARCHRETURNVALUES
-      //this.count = key3;
       this.time++;
-      //console.log("updated time by 1");
       wikiSearchResults.push(
         <div className="searchResultDiv" key={key3}>
           <h3>{this.state.wikiSearchReturnValues2[key3].queryResultPageTitle}</h3>
@@ -134,9 +155,10 @@ class Wikipedia extends React.Component {
       if(this.time > 10) {
         break;
       }
-      //RESET TIME
+      if(this.time == 1){
+        this.currentTitle = this.state.wikiSearchReturnValues2[key3].queryResultPageTitle;
+      }
       console.log(this.time);
-      console.log(this.state.wikiSearchReturnValues2[key3].queryResultPageTitle);
       //console.log(this.state.wikiSearchReturnValues2.length);
       console.log(wikiSearchResults.length);
     }
@@ -152,9 +174,11 @@ class Wikipedia extends React.Component {
           <input type="text" value={this.state.WikiSearchTerms || ''} onChange={this.changeWikiSearchTerms}
           placeholder="Search Wikipedia Articles" />
           <button type="submit" onClick={this.useWikiSearchEngine}>Search</button>
-          <p id="start">Start:</p>
+          <p>Start: </p>
+          <p id="start">{this.currentStartTitle}</p>
           <br></br>
-          <p id="finish">Finish:</p>
+          <p>Finish: </p>
+          <p id="finish">{this.currentFinishTitle}</p>
         </form>
         {wikiSearchResults} 
       </div>
