@@ -1,7 +1,8 @@
-import React, {useRef, useEffect} from 'react'
+import React, {useRef, useEffect, useState} from 'react'
 import Webcam from "react-webcam";
 import HOLISTIC, { Holistic } from '@mediapipe/holistic'
 import * as cam from '@mediapipe/camera_utils'
+import { Form, Button, Card } from "react-bootstrap"
 import * as draw from '@mediapipe/drawing_utils'
 
 
@@ -12,12 +13,32 @@ import * as draw from '@mediapipe/drawing_utils'
 function ASL() {
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
+  const correctRef = useRef(null);
+  const [loading, setLoading] = useState(false)
+
+
   const connect = window.drawConnectors;
   let camera = null;
   let sequence = [];
+  const actions =['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
+  's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'hello', 'i love you', 'goodbye', 'how are you', 'deaf', 'thank you'
+  ,'my name is']
+  let currentWord;
+
+  let correctWord = false;
+  let actionNum = parseInt(Math.random() * 33);
+  currentWord = actions[actionNum]
+  console.log(actionNum)
+  console.log(currentWord)
 
   
   function onResults(results) {
+    if(results == null){
+      setLoading(true)
+    }
+    else{
+      setLoading(false)
+    }
     const videoWidth = webcamRef.current.video.videoWidth;
     const videoHeight = webcamRef.current.video.videoHeight;
 
@@ -25,6 +46,26 @@ function ASL() {
     canvasRef.current.width = videoWidth;
     canvasRef.current.height = videoHeight;
 
+
+    let value = null
+    if(sequence.length === 29){ 
+      correctWord = true
+      if(correctWord){ // if(model.predict == "proposed hand sign")
+        ifCorrectSign(videoHeight, videoWidth, correctWord, currentWord);
+        
+      }
+      
+      //picks word
+      
+      //display the word
+
+      //Math.random(1-34) picks a random sign
+      // display on canvas word
+      }
+    else{
+      value = false
+    }
+    
     const canvasElement = canvasRef.current;
     const canvasCtx = canvasElement.getContext("2d");
     canvasCtx.globalCompositeOperation = 'source-over';
@@ -106,6 +147,32 @@ function ASL() {
 
   }
 
+  function ifCorrectSign(videoHeight, videoWidth, resultBool, word){
+    correctRef.current.width = videoWidth
+    correctRef.current.height = videoHeight
+    
+    const canvasElement = correctRef.current;
+    const canvasCtx = canvasElement.getContext("2d");
+    if(resultBool){
+      canvasCtx.font = "30px Times New Roman";
+      canvasCtx.textAlign = "center";
+      canvasCtx.fillText(word, canvasElement.width/2, 100);
+
+
+      canvasCtx.fillStyle = "#00FF00";
+      canvasCtx.fillRect(0, 0, 150, 75);  
+    }
+    else{
+      canvasCtx.fillStyle = "#FF0000";
+      canvasCtx.fillRect(0, 0, 150, 75);  
+    }
+    
+  }
+  function changeWord(){
+      let actionNum = parseInt(Math.random() * 33);
+      currentWord = actions[actionNum]; 
+  }
+
   useEffect(() => {
     const holistic = new Holistic({
       locateFile: (file) => {
@@ -130,17 +197,17 @@ function ASL() {
         onFrame: async () => {
           await holistic.send({image: webcamRef.current.video});
         },
-        width: 1280,
-        height: 720
+        width: 414,
+        height: 736
       });
       camera.start();
     }
   }, []);
   
 
- 
     
   return (
+    
     <div className="ASL">
         <header className="App-header">
         <Webcam
@@ -153,8 +220,8 @@ function ASL() {
             right: 0,
             textAlign: "center",
             zindex: 9,
-            width: 1280,
-            height: 720,
+            width: 414,
+            height: 736,
           }}
         />
 
@@ -168,11 +235,29 @@ function ASL() {
             right: 0,
             textAlign: "center",
             zindex: 9,
-            width: 1280,
-            height: 720,
+            width: 414,
+            height: 736,
+          }}
+        />
+
+      <canvas
+          ref={correctRef}
+          style={{
+            position: "absolute",
+            marginLeft: "auto",
+            marginRight: "auto",
+            left: 0,
+            right: 0,
+            textAlign: "center",
+            zindex: 9,
+            width: 414,
+            height: 736,
           }}
         />
       </header>
+      <Button onClick = {changeWord} disabled = {loading} className="btn-btn purple" type="submit">
+              word changer
+            </Button>
     </div>
   )
 }
