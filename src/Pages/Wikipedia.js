@@ -12,6 +12,7 @@ class Wikipedia extends React.Component {
     this.start = this.start.bind(this); //https://reactjs.org/docs/handling-events.html
     this.finish = this.finish.bind(this);
     this.checkButton = this.checkButton.bind(this);
+    this.displayWiki = this.displayWiki.bind(this);
     this.time = 0;
     this.currentTitle = "";
     this.currentStartTitle = "";
@@ -19,9 +20,10 @@ class Wikipedia extends React.Component {
   }
 
  
-
+  
 
   useWikiSearchEngine = (e) => {
+    //document.getElementById("play").style.visibility = "hidden";
     this.time = 0;
     e.preventDefault();
 
@@ -123,19 +125,24 @@ class Wikipedia extends React.Component {
    }
 
    checkButton() {
-     var pStart = document.getElementById("start");
-     var pFinish = document.getElementById("finish");
-     if(pStart != "" && pFinish != ""){
+    //console.log("in function");
+     let pStart = document.getElementById("start").innerHTML;
+     let pFinish = document.getElementById("finish").innerHTML;
+     if(pStart !== "" && pFinish !== ""){
        console.log(pStart);
        console.log(pFinish);
        console.log(this.currentFinishTitle);
        let playButton = document.createElement("button");
        playButton.innerHTML = "Play";
        playButton.type = "submit";
+       playButton.onClick = "displayWiki";
        document.body.appendChild(playButton);
      }
    }
 
+   displayWiki() {
+      
+   }
   
   
   render() {
@@ -155,7 +162,7 @@ class Wikipedia extends React.Component {
       if(this.time > 10) {
         break;
       }
-      if(this.time == 1){
+      if(this.time === 1){
         this.currentTitle = this.state.wikiSearchReturnValues2[key3].queryResultPageTitle;
       }
       console.log(this.time);
@@ -179,6 +186,7 @@ class Wikipedia extends React.Component {
           <br></br>
           <p>Finish: </p>
           <p id="finish">{this.currentFinishTitle}</p>
+          <br></br>
         </form>
         {wikiSearchResults} 
       </div>
