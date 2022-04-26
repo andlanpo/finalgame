@@ -17,6 +17,10 @@ class Wikipedia extends React.Component {
     this.currentTitle = "";
     this.currentStartTitle = "";
     this.currentFinishTitle = "";
+    this.currentLink = "";
+    this.currentStartLink = "";
+    this.currentFinishLink = "";
+    this.breakOut = false;
   }
 
  
@@ -113,6 +117,9 @@ class Wikipedia extends React.Component {
    start() {
     console.log("Start Works!");
     this.currentStartTitle = this.currentTitle;
+    this.currentStartLink = this.currentLink;
+    console.log(this.currentLink);
+    console.log(this.currentStartLink);
     document.getElementById("start").innerHTML = this.currentStartTitle;
     this.checkButton();
    }
@@ -120,6 +127,9 @@ class Wikipedia extends React.Component {
    finish() {
     console.log("Finish Works!");
     this.currentFinishTitle = this.currentTitle;
+    this.currentFinishLink = this.currentLink;
+    console.log(this.currentLink);
+    console.log(this.currentFinishLink);
     document.getElementById("finish").innerHTML = this.currentFinishTitle;
     this.checkButton();
    }
@@ -128,10 +138,11 @@ class Wikipedia extends React.Component {
     //console.log("in function");
      let pStart = document.getElementById("start").innerHTML;
      let pFinish = document.getElementById("finish").innerHTML;
-     if(pStart !== "" && pFinish !== ""){
-       console.log(pStart);
-       console.log(pFinish);
-       console.log(this.currentFinishTitle);
+     if(pStart !== "" && pFinish !== "" && this.breakOut == false){
+       this.breakOut = true;
+      //  console.log(pStart);
+      //  console.log(pFinish);
+      //  console.log(this.currentFinishTitle);
        let playButton = document.createElement("button");
        playButton.innerHTML = "Play";
        playButton.type = "submit";
@@ -150,24 +161,35 @@ class Wikipedia extends React.Component {
 
     for(var key3 in this.state.wikiSearchReturnValues2) { //CHECK LENGTH OF WIKISEARCHRETURNVALUES
       this.time++;
-      wikiSearchResults.push(
-        <div className="searchResultDiv" key={key3}>
-          <h3>{this.state.wikiSearchReturnValues2[key3].queryResultPageTitle}</h3>
-          <span className="link"><u>{this.state.wikiSearchReturnValues2[key3].queryResultPageFullURL}</u></span>
-          <button onClick={this.start}>Start</button>
-          <button onClick={this.finish}>Finish</button>
-          <p className="description" dangerouslySetInnerHTML={{__html: this.state.wikiSearchReturnValues2[key3].queryResultPageSnippet}}></p>
+      if(this.time > 170){
+        wikiSearchResults.push(
+          <div className="searchResultDiv" key={key3}>
+            <h3>{this.state.wikiSearchReturnValues2[key3].queryResultPageTitle}</h3>
+            <span className="link"><u>{this.state.wikiSearchReturnValues2[key3].queryResultPageFullURL}</u></span>
+            <button onClick={this.start}>Start</button>
+            <button onClick={this.finish}>Finish</button>
+            <p className="description" dangerouslySetInnerHTML={{__html: this.state.wikiSearchReturnValues2[key3].queryResultPageSnippet}}></p>
         </div>
       );
-      if(this.time > 10) {
-        break;
-      }
-      if(this.time === 1){
-        this.currentTitle = this.state.wikiSearchReturnValues2[key3].queryResultPageTitle;
-      }
+      this.currentTitle = this.state.wikiSearchReturnValues2[key3].queryResultPageTitle;
+      this.currentLink = this.state.wikiSearchReturnValues2[key3].queryResultPageFullURL;
+      console.log(this.currentTitle);
+      console.log(this.currentLink);
       console.log(this.time);
+    }
+      
+      // if(this.time > 10) {
+      //   break;
+      // }
+      // if(this.time === 1){
+      //   this.currentTitle = this.state.wikiSearchReturnValues2[key3].queryResultPageTitle;
+      //   this.currentLink = this.state.wikiSearchReturnValues2[key3].queryResultPageFullURL;
+      //   console.log(this.currentTitle);
+      //   console.log(this.currentLink);
+      // }
+      //console.log(this.time);
       //console.log(this.state.wikiSearchReturnValues2.length);
-      console.log(wikiSearchResults.length);
+      //console.log(wikiSearchResults.length);
     }
 
 
