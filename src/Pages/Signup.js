@@ -40,7 +40,6 @@ export default function Signup() {
               <Form.Label>Password Confirmation</Form.Label>
               <Form.Control type="password" ref={passwordConfirmRef} required />
             </Form.Group>
-            <a class="waves-effect waves-teal btn-flat">Button</a>
             <Button onClick = {handleSignUp} disabled = {loading} className="btn-btn purple" type="submit">
               Sign Up
             </Button>

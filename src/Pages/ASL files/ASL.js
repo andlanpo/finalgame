@@ -4,6 +4,8 @@ import HOLISTIC, { Holistic } from '@mediapipe/holistic'
 import * as cam from '@mediapipe/camera_utils'
 import { Form, Button, Card } from "react-bootstrap"
 import * as draw from '@mediapipe/drawing_utils'
+import { toHaveFocus } from '@testing-library/jest-dom/dist/matchers';
+import * as tf from '@tensorflow/tfjs'
 
 
 
@@ -15,18 +17,19 @@ function ASL() {
   const canvasRef = useRef(null);
   const correctRef = useRef(null);
   const [loading, setLoading] = useState(false)
-
+  let model;
 
   const connect = window.drawConnectors;
   let camera = null;
   let sequence = [];
-  const actions =['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
-  's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'hello', 'i love you', 'goodbye', 'how are you', 'deaf', 'thank you'
+  const actions =['blank','hello', 'i love you', 'goodbye', 'how are you', 'thank you'
   ,'my name is']
   let currentWord;
+  let videoWidth;
+  let videoHeight;
 
   let correctWord = false;
-  let actionNum = parseInt(Math.random() * 33);
+  let actionNum = parseInt(Math.random() * 7);
   currentWord = actions[actionNum]
   console.log(actionNum)
   console.log(currentWord)
@@ -39,32 +42,15 @@ function ASL() {
     else{
       setLoading(false)
     }
-    const videoWidth = webcamRef.current.video.videoWidth;
-    const videoHeight = webcamRef.current.video.videoHeight;
+    videoWidth = webcamRef.current.video.videoWidth;
+    videoHeight = webcamRef.current.video.videoHeight;
 
     // Set canvas width
     canvasRef.current.width = videoWidth;
     canvasRef.current.height = videoHeight;
 
 
-    let value = null
-    if(sequence.length === 29){ 
-      correctWord = true
-      if(correctWord){ // if(model.predict == "proposed hand sign")
-        ifCorrectSign(videoHeight, videoWidth, correctWord, currentWord);
-        
-      }
-      
-      //picks word
-      
-      //display the word
-
-      //Math.random(1-34) picks a random sign
-      // display on canvas word
-      }
-    else{
-      value = false
-    }
+    
     
     const canvasElement = canvasRef.current;
     const canvasCtx = canvasElement.getContext("2d");
@@ -85,7 +71,6 @@ function ASL() {
                   {color: 'teal', lineWidth: 2});
     canvasCtx.restore();
     extractKeypoints(results);
-
   }
   function extractKeypoints(results){
     let resArray = []
@@ -141,11 +126,24 @@ function ASL() {
   }
 
   sequence.push(resArray)
-  sequence = sequence.slice(-29)
-  console.log(sequence)
+  sequence = sequence.slice(-30)
+  //console.log(sequence)
+  if(sequence.length == 30){
+
+
+
+    let res = model.predict(tf.expandDims(sequence, 0)).dataSync()
+    ifCorrectSign(videoHeight, videoWidth, true, actions[tf.argMax(res,0).arraySync()]);
 
 
   }
+
+
+
+  }
+
+  
+
 
   function ifCorrectSign(videoHeight, videoWidth, resultBool, word){
     correctRef.current.width = videoWidth
@@ -172,8 +170,15 @@ function ASL() {
       let actionNum = parseInt(Math.random() * 33);
       currentWord = actions[actionNum]; 
   }
+  async function loadModel(){
+    console.log("console loading")
+    model = await tf.loadLayersModel('https://andlanpomodel.s3.us-east-2.amazonaws.com/layersModel/model.json')
+    console.log("model loaded")
+  }
 
   useEffect(() => {
+
+    loadModel();
     const holistic = new Holistic({
       locateFile: (file) => {
         return `https://cdn.jsdelivr.net/npm/@mediapipe/holistic/${file}`;      },
@@ -197,8 +202,8 @@ function ASL() {
         onFrame: async () => {
           await holistic.send({image: webcamRef.current.video});
         },
-        width: 414,
-        height: 736
+        width: 1280,
+        height: 720
       });
       camera.start();
     }
@@ -220,8 +225,8 @@ function ASL() {
             right: 0,
             textAlign: "center",
             zindex: 9,
-            width: 414,
-            height: 736,
+            width: 1280,
+            height: 720,
           }}
         />
 
@@ -235,8 +240,8 @@ function ASL() {
             right: 0,
             textAlign: "center",
             zindex: 9,
-            width: 414,
-            height: 736,
+            width: 1280,
+            height: 720,
           }}
         />
 
@@ -250,8 +255,8 @@ function ASL() {
             right: 0,
             textAlign: "center",
             zindex: 9,
-            width: 414,
-            height: 736,
+            width: 1280,
+            height: 720,
           }}
         />
       </header>
