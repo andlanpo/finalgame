@@ -17,7 +17,7 @@ class Wikipedia extends React.Component {
     this.currentTitle = "";
     this.currentStartTitle = "";
     this.currentFinishTitle = "";
-    this.currentLink = "";
+    this.wikiLink = "";
     this.currentStartLink = "";
     this.currentFinishLink = "";
     this.breakOut = false;
@@ -29,6 +29,9 @@ class Wikipedia extends React.Component {
   useWikiSearchEngine = (e) => {
     //document.getElementById("play").style.visibility = "hidden";
     this.time = 0;
+    this.wikiLink = "https://en.wikipedia.org/wiki/";
+    this.currentStartLink = "";
+    this.currentFinishLink = "";
     e.preventDefault();
 
     this.setState({
@@ -117,9 +120,19 @@ class Wikipedia extends React.Component {
    start() {
     console.log("Start Works!");
     this.currentStartTitle = this.currentTitle;
-    this.currentStartLink = this.currentLink;
-    console.log(this.currentLink);
+    for(let char of this.currentStartTitle){
+      if(char === " "){
+        this.currentStartLink += "_";
+      }
+      else if(char === "'"){
+        this.currentStartLink += "%27";
+      }
+      else{
+        this.currentStartLink += char;
+      }
+    }
     console.log(this.currentStartLink);
+    console.log(this.wikiLink += this.currentStartLink);
     document.getElementById("start").innerHTML = this.currentStartTitle;
     this.checkButton();
    }
@@ -127,15 +140,25 @@ class Wikipedia extends React.Component {
    finish() {
     console.log("Finish Works!");
     this.currentFinishTitle = this.currentTitle;
-    this.currentFinishLink = this.currentLink;
-    console.log(this.currentLink);
+    for(let char of this.currentFinishTitle){
+      if(char === " "){
+        this.currentFinishLink += "_";
+      }
+      else if(char === "'"){
+        this.currentFinishLink += "%27";
+      }
+      else{
+        this.currentFinishLink += char;
+      }
+    }
     console.log(this.currentFinishLink);
+    console.log(this.wikiLink += this.currentFinishLink);
     document.getElementById("finish").innerHTML = this.currentFinishTitle;
     this.checkButton();
    }
 
    checkButton() {
-    //console.log("in function");
+    console.log("in check");
      let pStart = document.getElementById("start").innerHTML;
      let pFinish = document.getElementById("finish").innerHTML;
      if(pStart !== "" && pFinish !== "" && this.breakOut == false){
@@ -149,10 +172,18 @@ class Wikipedia extends React.Component {
        playButton.onClick = "displayWiki";
        document.body.appendChild(playButton);
      }
+    //https://stackoverflow.com/questions/10418644/creating-an-iframe-with-given-html-dynamically
+    var displayGame = document.createElement("iframe");
+    displayGame.src = this.wikiLink; //...interesting 
+    document.body.appendChild(displayGame);
    }
 
    displayWiki() {
-      
+    console.log("in display");
+    var displayGame = document.createElement("iframe");
+    displayGame.src = this.wikiLink += this.currentStartLink;
+    document.body.appendChild(displayGame);
+    console.log("finished");
    }
   
   
@@ -161,7 +192,6 @@ class Wikipedia extends React.Component {
 
     for(var key3 in this.state.wikiSearchReturnValues2) { //CHECK LENGTH OF WIKISEARCHRETURNVALUES
       this.time++;
-      if(this.time > 170){
         wikiSearchResults.push(
           <div className="searchResultDiv" key={key3}>
             <h3>{this.state.wikiSearchReturnValues2[key3].queryResultPageTitle}</h3>
@@ -171,22 +201,13 @@ class Wikipedia extends React.Component {
             <p className="description" dangerouslySetInnerHTML={{__html: this.state.wikiSearchReturnValues2[key3].queryResultPageSnippet}}></p>
         </div>
       );
-      this.currentTitle = this.state.wikiSearchReturnValues2[key3].queryResultPageTitle;
-      this.currentLink = this.state.wikiSearchReturnValues2[key3].queryResultPageFullURL;
-      console.log(this.currentTitle);
-      console.log(this.currentLink);
-      console.log(this.time);
-    }
-      
-      // if(this.time > 10) {
-      //   break;
-      // }
-      // if(this.time === 1){
-      //   this.currentTitle = this.state.wikiSearchReturnValues2[key3].queryResultPageTitle;
-      //   this.currentLink = this.state.wikiSearchReturnValues2[key3].queryResultPageFullURL;
-      //   console.log(this.currentTitle);
-      //   console.log(this.currentLink);
-      // }
+      if(this.time > 10) {
+        break;
+      }
+      if(this.time === 1){
+        this.currentTitle = this.state.wikiSearchReturnValues2[key3].queryResultPageTitle;
+        //console.log(this.currentTitle);
+      }
       //console.log(this.time);
       //console.log(this.state.wikiSearchReturnValues2.length);
       //console.log(wikiSearchResults.length);
