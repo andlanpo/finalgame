@@ -30,8 +30,8 @@ class Wikipedia extends React.Component {
     //document.getElementById("play").style.visibility = "hidden";
     this.time = 0;
     this.wikiLink = "https://en.wikipedia.org/wiki/";
-    this.currentStartLink = "";
-    this.currentFinishLink = "";
+    // this.currentStartLink = "";
+    // this.currentFinishLink = "";
     e.preventDefault();
 
     this.setState({
@@ -111,14 +111,16 @@ class Wikipedia extends React.Component {
         }
       )
   }
+
   changeWikiSearchTerms = (e) => {
     this.setState({
       WikiSearchTerms: e.target.value
     });
   }
 
-   start() {
+  start() {
     console.log("Start Works!");
+    this.currentStartLink = "";
     this.currentStartTitle = this.currentTitle;
     for(let char of this.currentStartTitle){
       if(char === " "){
@@ -132,13 +134,14 @@ class Wikipedia extends React.Component {
       }
     }
     console.log(this.currentStartLink);
-    console.log(this.wikiLink += this.currentStartLink);
+    //console.log(this.wikiLink += this.currentStartLink);
     document.getElementById("start").innerHTML = this.currentStartTitle;
     this.checkButton();
-   }
+  }
 
    finish() {
     console.log("Finish Works!");
+    this.currentFinishLink = "";
     this.currentFinishTitle = this.currentTitle;
     for(let char of this.currentFinishTitle){
       if(char === " "){
@@ -152,7 +155,6 @@ class Wikipedia extends React.Component {
       }
     }
     console.log(this.currentFinishLink);
-    console.log(this.wikiLink += this.currentFinishLink);
     document.getElementById("finish").innerHTML = this.currentFinishTitle;
     this.checkButton();
    }
@@ -166,21 +168,24 @@ class Wikipedia extends React.Component {
       //  console.log(pStart);
       //  console.log(pFinish);
       //  console.log(this.currentFinishTitle);
-       let playButton = document.createElement("button");
+       let playButton = document.createElement("button"); //https://sebhastian.com/javascript-create-button/
        playButton.innerHTML = "Play";
        playButton.type = "submit";
-       playButton.onClick = "displayWiki";
+       playButton.addEventListener('click', this.displayWiki); //https://quick-adviser.com/how-do-you-add-onclick-event-dynamically-in-react-js/#How_do_you_add_onClick_event_dynamically_in_React_JS
        document.body.appendChild(playButton);
      }
     //https://stackoverflow.com/questions/10418644/creating-an-iframe-with-given-html-dynamically
-    var displayGame = document.createElement("iframe");
-    displayGame.src = this.wikiLink; //...interesting 
-    document.body.appendChild(displayGame);
+    // var displayGame = document.createElement("iframe");
+    // displayGame.src = this.wikiLink; //...interesting 
+    // document.body.appendChild(displayGame);
    }
 
    displayWiki() {
     console.log("in display");
     var displayGame = document.createElement("iframe");
+    console.log(this.wikiLink);
+    console.log(this.currentStartLink);
+    console.log(this.currentFinishLink);
     displayGame.src = this.wikiLink += this.currentStartLink;
     document.body.appendChild(displayGame);
     console.log("finished");
