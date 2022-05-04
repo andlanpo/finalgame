@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react'; 
+import { getByDisplayValue, render } from '@testing-library/react'; 
 import React, { useState } from 'react';
 
 class Wikipedia extends React.Component {
@@ -187,6 +187,9 @@ class Wikipedia extends React.Component {
     console.log(this.currentStartLink);
     console.log(this.currentFinishLink);
     displayGame.src = this.wikiLink += this.currentStartLink;
+    displayGame.height = "1000px";
+    displayGame.width = "100%";
+    displayGame.scroll = "no";
     document.body.appendChild(displayGame);
     console.log("finished");
    }
