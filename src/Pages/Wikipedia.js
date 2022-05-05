@@ -1,7 +1,7 @@
 import { getByDisplayValue, render } from '@testing-library/react'; 
 import React, { useState } from 'react';
 
-class Wikipedia extends React.Component {
+class Wikipedia extends React.Component { //SEARCH CANNIT
   constructor(props){
     super(props);
     this.count = 0;
@@ -139,7 +139,7 @@ class Wikipedia extends React.Component {
     this.checkButton();
   }
 
-   finish() {
+  finish() {
     console.log("Finish Works!");
     this.currentFinishLink = "";
     this.currentFinishTitle = this.currentTitle;
@@ -157,7 +157,7 @@ class Wikipedia extends React.Component {
     console.log(this.currentFinishLink);
     document.getElementById("finish").innerHTML = this.currentFinishTitle;
     this.checkButton();
-   }
+  }
 
    checkButton() {
     console.log("in check");
@@ -183,6 +183,7 @@ class Wikipedia extends React.Component {
    displayWiki() {
     console.log("in display");
     var displayGame = document.createElement("iframe");
+    displayGame.id = "wikiPage"
     console.log(this.wikiLink);
     console.log(this.currentStartLink);
     console.log(this.currentFinishLink);
@@ -191,8 +192,31 @@ class Wikipedia extends React.Component {
     displayGame.width = "100%";
     displayGame.scroll = "no";
     document.body.appendChild(displayGame);
-    console.log("finished");
-   }
+    // console.log(displayGame.src);
+    // console.log("finished");
+    var wikiObject = document.getElementById("wikiPage");
+    var wikiFrame = wikiObject.contentWindow.document.body.innerHTML;
+    var iframeDoc = displayGame.contentDocument || displayGame.contentWindow.document;
+    // if (iframeDoc.readyState  == 'complete' ) {
+    //   //iframe.contentWindow.alert("Hello");
+    //   displayGame.contentWindow.onload = function(){
+    //       alert("I am loaded");
+    //   };
+    //   return;
+    // }
+    document.querySelector('iframe').onload = function(){
+      //alert(wikiFrame.innerHTML);
+      var value = displayGame.contentWindow.document.getElementsByTagName("h1"); //https://stackoverflow.com/questions/21471370/get-title-from-iframe-document
+      //https://www.w3schools.com/howto/howto_js_element_iframe.asp
+      alert(value);
+  };
+  
+    //alert("frame content: " + wikiFrame);
+
+    // displayGame.contentWindow.onload = function () {
+    //   console.log("I am loaded");
+    // }
+  }
   
   
   render() {
