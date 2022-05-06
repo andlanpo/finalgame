@@ -206,9 +206,16 @@ class Wikipedia extends React.Component { //SEARCH CANNIT
     // }
     document.querySelector('iframe').onload = function(){
       //alert(wikiFrame.innerHTML);
-      var value = displayGame.contentWindow.document.getElementsByTagName("h1"); //https://stackoverflow.com/questions/21471370/get-title-from-iframe-document
+      //alert("loaded");
+      //var value = displayGame.contentWindow.document.getElementsByTagName("h1"); //https://stackoverflow.com/questions/21471370/get-title-from-iframe-document
+      // var heading = wikiObject.contentWindow.document.getElementById("firstHeading");
+      // console.log(heading);
       //https://www.w3schools.com/howto/howto_js_element_iframe.asp
-      alert(value);
+      //alert(value);
+      var theTitle = wikiObject.contentDocument.head()
+      console.log(theTitle);
+      //http://www.etsav.upc.edu/assignatures/portafoli/tutorial1/3.html
+      
   };
   
     //alert("frame content: " + wikiFrame);
