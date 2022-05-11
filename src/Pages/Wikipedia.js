@@ -197,6 +197,8 @@ class Wikipedia extends React.Component { //SEARCH CANNIT
     var wikiObject = document.getElementById("wikiPage");
     var wikiFrame = wikiObject.contentWindow.document.body.innerHTML;
     var iframeDoc = displayGame.contentDocument || displayGame.contentWindow.document;
+    
+    //console.log("trying to displayfirst heading" + iframeDoc.document.getElementById("firstHeading"));
     // if (iframeDoc.readyState  == 'complete' ) {
     //   //iframe.contentWindow.alert("Hello");
     //   displayGame.contentWindow.onload = function(){
@@ -204,7 +206,7 @@ class Wikipedia extends React.Component { //SEARCH CANNIT
     //   };
     //   return;
     // }
-    document.querySelector('iframe').onload = function(){
+    document.querySelector('iframe').onload = async function(){
       //alert(wikiFrame.innerHTML);
       //alert("loaded");
       //var value = displayGame.contentWindow.document.getElementsByTagName("h1"); //https://stackoverflow.com/questions/21471370/get-title-from-iframe-document
@@ -212,9 +214,17 @@ class Wikipedia extends React.Component { //SEARCH CANNIT
       // console.log(heading);
       //https://www.w3schools.com/howto/howto_js_element_iframe.asp
       //alert(value);
-      var theTitle = wikiObject.contentDocument.head()
-      console.log(theTitle);
+      //var frameObject = document.getElementById("wikiPage");
+      // var frameContent = frameObject.contentWindow.document.body.innerHTML;
+      // alert(frameContent);
+      // var element = frameObject.contentWindow.document.getElementsByTagName("H1")[0];
+      // alert(element);
+  
+      var x = document.getElementsByTagName("iframe")[0].contentWindow
+      await console.log(x.document.getElementsByTagName("body")[0])
+      // console.log(theTitle);
       //http://www.etsav.upc.edu/assignatures/portafoli/tutorial1/3.html
+      
       
   };
   
