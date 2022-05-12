@@ -184,6 +184,7 @@ class Wikipedia extends React.Component { //SEARCH CANNIT
     console.log("in display");
     var displayGame = document.createElement("iframe");
     displayGame.id = "wikiPage"
+    displayGame.sandbox = "allow-same-origin allow-scripts allow-modals allow-forms" 
     console.log(this.wikiLink);
     console.log(this.currentStartLink);
     console.log(this.currentFinishLink);
@@ -206,24 +207,32 @@ class Wikipedia extends React.Component { //SEARCH CANNIT
     //   };
     //   return;
     // }
-    document.querySelector('iframe').onload = async function(){
-      //alert(wikiFrame.innerHTML);
-      //alert("loaded");
+    document.querySelector('iframe').onload = function(link = this.wikiLink += this.currentFinishLink){
+      // alert(wikiFrame.innerHTML);
+      // alert("loaded");
       //var value = displayGame.contentWindow.document.getElementsByTagName("h1"); //https://stackoverflow.com/questions/21471370/get-title-from-iframe-document
       // var heading = wikiObject.contentWindow.document.getElementById("firstHeading");
       // console.log(heading);
       //https://www.w3schools.com/howto/howto_js_element_iframe.asp
       //alert(value);
-      //var frameObject = document.getElementById("wikiPage");
+      // var frameObject = document.getElementById("wikiPage");
       // var frameContent = frameObject.contentWindow.document.body.innerHTML;
       // alert(frameContent);
       // var element = frameObject.contentWindow.document.getElementsByTagName("H1")[0];
       // alert(element);
-  
-      var x = document.getElementsByTagName("iframe")[0].contentWindow
-      await console.log(x.document.getElementsByTagName("body")[0])
+      
+      // let iWindow = wikiObject.contentWindow;
+      // let iDoc = iWindow.document;
+      // let element = iDoc.getElementsByTagName("h1")[0]
+      // var x = document.getElementsByTagName("iframe")[0].contentWindow
+      // console.log(element);
+      //console.log(x.document.getElementsByTagName("body")[0])
       // console.log(theTitle);
+      var el = document.createDocumentFragment(link.path[0])
+      let x = document.querySelector("document")
       //http://www.etsav.upc.edu/assignatures/portafoli/tutorial1/3.html
+      console.log(x )
+ 
       
       
   };
