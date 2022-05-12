@@ -162,6 +162,8 @@ function ASL() {
         wrongCount++;
       }
       if(count == 10){
+        canvasCtx.fillStyle = "#00FF00";
+        canvasCtx.fillRect(canvasElement.width/2 - 75, 600, 150, canvasElement.height-100);  
         changeWord();
         count = 0;
       }
@@ -182,21 +184,11 @@ function ASL() {
     
     
     
-    if(resultBool){
-      canvasCtx.font = "30px Helvetica";
+      canvasCtx.font = "20px Helvetica";
       canvasCtx.textAlign = "center";
-      canvasCtx.fillText("Your Guess: " + word, canvasElement.width/4, 600);
-      canvasCtx.fillText("Word to Sign: " + currentWord, 3*canvasElement.width/4, 600);
+      canvasCtx.fillText("Your Guess: " + word, canvasElement.width/4, canvasElement.height-100);
+      canvasCtx.fillText("Word to Sign: " + currentWord, 3*canvasElement.width/4, canvasElement.height-100);
 
-
-
-      canvasCtx.fillStyle = "#00FF00";
-      canvasCtx.fillRect(canvasElement.width/2 - 75, 600, 150, 75);  
-    }
-    else{
-      canvasCtx.fillStyle = "#FF0000";
-      canvasCtx.fillRect(canvasElement.width/2 - 75, 600, 150, 75);  
-    }
     
   }
   function changeWord(){
