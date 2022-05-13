@@ -183,9 +183,9 @@ class Wikipedia extends React.Component { //SEARCH CANNIT
 
    displayWiki() {
     let endButton = document.createElement("button");
-    playButton.innerHTML = "I did it!";
-    playButton.type = "submit";
-    playButton.addEventListener('click', this.finishedGame);
+    endButton.innerHTML = "I did it!";
+    endButton.type = "submit";
+    endButton.addEventListener('click', this.finishedGame);
     document.body.appendChild(endButton);
     console.log("in display");
     var displayGame = document.createElement("iframe");
@@ -248,13 +248,19 @@ class Wikipedia extends React.Component { //SEARCH CANNIT
   }
 
   finishedGame() {
+    console.log("inn finishedGame")
     let element = document.getElementById("wikiPage");
     let hidden = element.getAttribute("hidden");
     if (hidden) {
        element.removeAttribute("hidden"); //https://www.dofactory.com/html/iframe/hidden
     }
+    var displayGame = document.getElementById("wikiPage");
+    displayGame.parentNode.removeChild(displayGame.firstChild); //https://www.google.com/search?q=remove+child+javascript&rlz=1C1GCEU_enUS993US993&oq=remove+child+&aqs=chrome.1.69i57j0i512l9.6031j0j7&sourceid=chrome&ie=UTF-8
+   
+    
 
   }
+  
 
   
   
