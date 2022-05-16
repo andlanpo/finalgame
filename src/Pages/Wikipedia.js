@@ -13,6 +13,7 @@ class Wikipedia extends React.Component { //SEARCH CANNIT
     this.finish = this.finish.bind(this);
     this.checkButton = this.checkButton.bind(this);
     this.displayWiki = this.displayWiki.bind(this);
+    this.finishedGame = this.finishedGame.bind(this);
     this.time = 0;
     this.currentTitle = "";
     this.currentStartTitle = "";
@@ -88,8 +89,8 @@ class Wikipedia extends React.Component { //SEARCH CANNIT
           for(var key2 in pointerToThis.state.wikiSearchReturnValues2) { //so this for loop runs 10 times
               startTitles.push(pointerToThis.state.wikiSearchReturnValues2[i].queryResultPageTitle);
               i++;
-              // console.log(startTitles);
-              //console.log(startTitles.length);
+              //  console.log(startTitles);
+              // console.log(startTitles.length);
             let page = pointerToThis.state.wikiSearchReturnValues2[key2];
             let pageID = page.queryResultPageID;
             let urlForRetrievingPageURLByPageID = `https://en.wikipedia.org/w/api.php?origin=*&action=query&prop=info&pageids=${pageID}&inprop=url&format=json`;
@@ -134,7 +135,7 @@ class Wikipedia extends React.Component { //SEARCH CANNIT
       }
     }
     console.log(this.currentStartLink);
-    //console.log(this.wikiLink += this.currentStartLink);
+    console.log(this.wikiLink += this.currentStartLink);
     document.getElementById("start").innerHTML = this.currentStartTitle;
     this.checkButton();
   }
@@ -171,6 +172,7 @@ class Wikipedia extends React.Component { //SEARCH CANNIT
        let playButton = document.createElement("button"); //https://sebhastian.com/javascript-create-button/
        playButton.innerHTML = "Play";
        playButton.type = "submit";
+       playButton.id = "playButton"
        playButton.addEventListener('click', this.displayWiki); //https://quick-adviser.com/how-do-you-add-onclick-event-dynamically-in-react-js/#How_do_you_add_onClick_event_dynamically_in_React_JS
        document.body.appendChild(playButton);
      }
@@ -181,9 +183,15 @@ class Wikipedia extends React.Component { //SEARCH CANNIT
    }
 
    displayWiki() {
+    let endButton = document.createElement("button");
+    endButton.innerHTML = "I did it!";
+    endButton.type = "submit";
+    endButton.addEventListener('click', this.finishedGame);
+    document.body.appendChild(endButton);
     console.log("in display");
     var displayGame = document.createElement("iframe");
     displayGame.id = "wikiPage"
+    displayGame.sandbox = "allow-same-origin allow-scripts allow-modals allow-forms" 
     console.log(this.wikiLink);
     console.log(this.currentStartLink);
     console.log(this.currentFinishLink);
@@ -191,12 +199,14 @@ class Wikipedia extends React.Component { //SEARCH CANNIT
     displayGame.height = "1000px";
     displayGame.width = "100%";
     displayGame.scroll = "no";
+    //endButton.onclick = document.getElementById("wikiPage").parentNode.removeChild(displayGame);
     document.body.appendChild(displayGame);
+    //endButton.addEventListener('click', document.getElementById("wikiPage").remove(displayGame));
     // console.log(displayGame.src);
     // console.log("finished");
-    var wikiObject = document.getElementById("wikiPage");
-    var wikiFrame = wikiObject.contentWindow.document.body.innerHTML;
-    var iframeDoc = displayGame.contentDocument || displayGame.contentWindow.document;
+    // var wikiObject = document.getElementById("wikiPage");
+    // var wikiFrame = wikiObject.contentWindow.document.body.innerHTML;
+    // var iframeDoc = displayGame.contentDocument || displayGame.contentWindow.document;
     
     //console.log("trying to displayfirst heading" + iframeDoc.document.getElementById("firstHeading"));
     // if (iframeDoc.readyState  == 'complete' ) {
@@ -206,26 +216,31 @@ class Wikipedia extends React.Component { //SEARCH CANNIT
     //   };
     //   return;
     // }
-    document.querySelector('iframe').onload = async function(){
-      //alert(wikiFrame.innerHTML);
-      //alert("loaded");
+    document.querySelector('iframe').onload = function(link = this.wikiLink += this.currentFinishLink){
+      // alert(wikiFrame.innerHTML);
+      // alert("loaded");
       //var value = displayGame.contentWindow.document.getElementsByTagName("h1"); //https://stackoverflow.com/questions/21471370/get-title-from-iframe-document
       // var heading = wikiObject.contentWindow.document.getElementById("firstHeading");
-      // console.log(heading);
+       //console.log(heading);
       //https://www.w3schools.com/howto/howto_js_element_iframe.asp
       //alert(value);
-      //var frameObject = document.getElementById("wikiPage");
+      // var frameObject = document.getElementById("wikiPage");
       // var frameContent = frameObject.contentWindow.document.body.innerHTML;
       // alert(frameContent);
       // var element = frameObject.contentWindow.document.getElementsByTagName("H1")[0];
       // alert(element);
-  
-      var x = document.getElementsByTagName("iframe")[0].contentWindow
-      await console.log(x.document.getElementsByTagName("body")[0])
-      // console.log(theTitle);
+      
+      // let iWindow = wikiObject.contentWindow;
+      // let iDoc = iWindow.document;
+      //  let element = iDoc.getElementsByTagName("h1")[0]
+      //  var x = document.getElementsByTagName("iframe")[0].contentWindow
+      //  console.log(element);
+      // console.log(x.document.getElementsByTagName("body")[0])
+      //  console.log(theTitle);
+      //  var el = document.createDocumentFragment(link.path[0])
+      //  let x = document.querySelector("document")
       //http://www.etsav.upc.edu/assignatures/portafoli/tutorial1/3.html
-      
-      
+      //console.log(x)  
   };
   
     //alert("frame content: " + wikiFrame);
@@ -234,6 +249,23 @@ class Wikipedia extends React.Component { //SEARCH CANNIT
     //   console.log("I am loaded");
     // }
   }
+
+  finishedGame() {
+    alert("Play again!");
+    document.location.reload(); //https://www.quackit.com/javascript/javascript_refresh_page.cfm
+    return false; //https://stackoverflow.com/questions/3715047/how-to-reload-a-page-using-javascript
+     console.log("in finishedGame")
+    //let element = document.getElementById("wikiPage");
+    // let hidden = element.getAttribute("hidden");
+    // if (hidden) {
+    //    element.removeAttribute("hidden"); //https://www.dofactory.com/html/iframe/hidden
+    // }
+    // var displayGame = document.getElementById("wikiPage");
+    // displayGame.parentNode.removeChild(displayGame.firstChild); //https://www.google.com/search?q=remove+child+javascript&rlz=1C1GCEU_enUS993US993&oq=remove+child+&aqs=chrome.1.69i57j0i512l9.6031j0j7&sourceid=chrome&ie=UTF-8
+    //element.removeChild(element.firstChild);
+  }
+  
+
   
   
   render() {
@@ -257,9 +289,9 @@ class Wikipedia extends React.Component { //SEARCH CANNIT
         this.currentTitle = this.state.wikiSearchReturnValues2[key3].queryResultPageTitle;
         //console.log(this.currentTitle);
       }
-      //console.log(this.time);
-      //console.log(this.state.wikiSearchReturnValues2.length);
-      //console.log(wikiSearchResults.length);
+      // console.log(this.time);
+      // console.log(this.state.wikiSearchReturnValues2.length);
+      // console.log(wikiSearchResults.length);
     }
 
 
