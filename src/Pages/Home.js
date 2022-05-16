@@ -8,7 +8,10 @@ import { BiBrain } from 'react-icons/bi'
 function Home() {
   return (
     <div>
-      <h1><BiBrain/></h1>
+      <h1 style={{textAlign:"center",
+                  }}>Welcome to Knome Games</h1>
+      <h1 style={{textAlign:"center",
+                }}><BiBrain style={{size:5}}></BiBrain></h1>
     </div>
    
       
